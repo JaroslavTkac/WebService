@@ -2,9 +2,9 @@
 
 Norint paleisti servisą reikia paleisiti komandas:
 
-`docker build -t danmerix/company:1 .`
+`docker build -t danmerix/company:2 .`
 
-`docker run -d -p 80:1234 danmerix/company:1`
+`docker run -d -p 80:1234 danmerix/company:2`
 
 Rest servisas bus pasiekiamas naršyklėje adresu:
 

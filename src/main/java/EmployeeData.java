@@ -65,12 +65,12 @@ class EmployeeData {
 
     List<Employee> findEmployeesByName(String name) {
         return employees.entrySet().stream().filter(
-                (entry) -> entry.getValue().getName().contains(name)
+                (entry) -> entry.getValue().getName().toLowerCase().contains(name.toLowerCase())
         ).map( Map.Entry::getValue ).collect(Collectors.toList());
     }
     List<Employee> findEmployeesByQualification(String qualification) {
         return employees.entrySet().stream().filter(
-                (entry) -> entry.getValue().getQualification().contains(qualification)
+                (entry) -> entry.getValue().getQualification().toLowerCase().contains(qualification.toLowerCase())
         ).map( Map.Entry::getValue ).collect(Collectors.toList());
     }
     List<Employee> findEmployeesByExperience(String years) {

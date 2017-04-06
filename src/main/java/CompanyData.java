@@ -55,12 +55,12 @@ class CompanyData {
 
     List<Company> findByCompanyName(String companyName) {
         return companies.entrySet().stream().filter(
-                (entry) -> entry.getValue().getCompanyName().contains(companyName)
+                (entry) -> entry.getValue().getCompanyName().toLowerCase().contains(companyName.toLowerCase())
         ).map( Map.Entry::getValue ).collect(Collectors.toList());
     }
     List<Company> findByLocation(String city) {
         return companies.entrySet().stream().filter(
-                (entry) -> entry.getValue().getCity().contains(city)
+                (entry) -> entry.getValue().getCity().toLowerCase().contains(city.toLowerCase())
         ).map( Map.Entry::getValue ).collect(Collectors.toList());
     }
     List<Company> findByEmployeeQuantity(String quantity) {
