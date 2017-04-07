@@ -1,6 +1,6 @@
-# Web servisas - Imonės #
+# Web servisas - Įmonės #
 
-Norint paleisti servisą reikia paleisiti komandas:
+Norint paleisti servisą reikia paleisti komandas:
 
 `docker build -t danmerix/company:2 .`
 
@@ -11,29 +11,29 @@ Rest servisas bus pasiekiamas naršyklėje adresu:
 `localhost:80/companies`
 
 ### Mūsų Web servise galima daryti štai ką: ###
-* Peržiūrėti visas esamas imonės, kurios yra pridėtos į web serviso duombazę. 
+* Peržiūrėti visas esamas įmones, kurios yra pridėtos į web serviso duombazę.
 
         pvz.: request'as tipo (GET) -localhost:80/companies
-* Pridėti imonę į web serviso duombazę.
+* Pridėti įmonę į web serviso duombazę.
 
         pvz.: request'as tipo (POST) - localhost:80/companies
-* Atnaujinti imonę pagal nurodyta ID. 
+* Atnaujinti įmonę pagal nurodytą ID.
 
         pvz.: request'as tipo (PUT) - localhost:80/companies/1
-* Ištrinti imonę pagal nurodyta ID. 
+* Ištrinti įmonę pagal nurodytą ID.
 
         pvz.: request'as tipo (DELETE) - localhost:80/companies/1
-* Gauti imonę pagal nurodyta ID. 
+* Gauti įmonę pagal nurodytą ID.
 
         pvz.: request'as tipo (GET) - localhost:80/companies/1
-* Gauti imones pagal nurodyta pavadimą. 
+* Gauti įmones pagal nurodytą pavadimą.
 
         pvz.: request'as tipo (GET) - localhost:80/companies/Maxima
 
-* Gauti imones pagal nurodyta miestą. 
+* Gauti įmones pagal nurodytą miestą.
 
         pvz.: request'as tipo (GET) - localhost:80/companies/Vilnius
-* Gauti imenes pagal nurodyta apdraustu darbuotojų skaičių.
+* Gauti įmones pagal nurodytą apdraustų darbuotojų skaičių.
 
         pvz.: request'as tipo (GET) - localhost:80/companies/employees/size/12
 
@@ -44,25 +44,25 @@ Rest servisas bus pasiekiamas naršyklėje adresu:
 * Peržiūrėti visus esamus darbuotojus, kurie yra pridėti į web serviso duombazę. 
 
         pvz.: request'as tipo (GET) - localhost:80/companies/employees/
-* Pridėti darbuotoja į web serviso duombazę. 
+* Pridėti darbuotoją į web serviso duombazę.
 
         pvz.: request'as tipo (POST) - localhost:80/companies/employees/
-* Atnaujinti darbuotoja pagal nurodyta ID. 
+* Atnaujinti darbuotoją pagal nurodytą ID.
 
         pvz.: request'as tipo (PUT) - localhost:80/companies/employees/1
-* Pašalinti darbuotoja pagal nurodyta ID. 
+* Pašalinti darbuotoją pagal nurodytą ID.
 
         pvz.: request'as tipo (DELETE) - localhost:80/companies/employees/1
-* Gauti darbuotoja pagal nurodyta ID. 
+* Gauti darbuotoją pagal nurodytą ID.
 
         pvz.: request'as tipo (GET) - localhost:80/companies/employees/1
-* Gauti darbuotoja pagal nurodyta vardą. 
+* Gauti darbuotoją pagal nurodytą vardą.
 
         pvz.: request'as tipo (GET) - localhost:80/companies/employees/name/Mindaugas
-* Gauti darbuotojus pagal nurodyta patirties lygį(metais). 
+* Gauti darbuotojus pagal nurodytą patirties lygį(metais).
 
         pvz.: request'as tipo (GET) - localhost:80/companies/employees/exp/3
-* Gauti darbuotojus pagal nurodyta specialybę. 
+* Gauti darbuotojus pagal nurodytą specialybę.
 
         pvz.: request'as tipo (GET) - localhost:80/companies/employees/qualification/Engineer
 
