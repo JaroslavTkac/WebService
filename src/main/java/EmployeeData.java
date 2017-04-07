@@ -37,6 +37,8 @@ class EmployeeData {
         if (company == null) {
             throw new Exception("There is no such company with id: " + employee.getCompanyId() + ". Can not add employee to nonexistent company.");
         }
+        if(employee.getName().length() < 3 || employee.getName().equals(""))
+            throw new Exception("No employee name found");
         employees.put(employee.getId(), employee);
     }
 
@@ -56,6 +58,8 @@ class EmployeeData {
         if (company == null) {
             throw new Exception("There is no such company with id: " + employee.getCompanyId() + ". Can not add employee to nonexistent company.");
         }
+        if(employees.get(id) == null)
+            throw new Exception("There is no employee with id: " + id);
         employees.put(id, employee);
     }
 

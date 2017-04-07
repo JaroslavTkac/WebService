@@ -28,11 +28,11 @@ Rest servisas bus pasiekiamas naršyklėje adresu:
         pvz.: request'as tipo (GET) - localhost:80/companies/1
 * Gauti įmones pagal nurodytą pavadimą.
 
-        pvz.: request'as tipo (GET) - localhost:80/companies/Maxima
+        pvz.: request'as tipo (GET) - localhost:80/companies/company_name/Maxima
 
 * Gauti įmones pagal nurodytą miestą.
 
-        pvz.: request'as tipo (GET) - localhost:80/companies/Vilnius
+        pvz.: request'as tipo (GET) - localhost:80/companies/city/Vilnius
 * Gauti įmones pagal nurodytą apdraustų darbuotojų skaičių.
 
         pvz.: request'as tipo (GET) - localhost:80/companies/employees/size/12

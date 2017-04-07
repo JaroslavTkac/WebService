@@ -30,20 +30,42 @@ class CompanyController {
     }
 
     static Object addCompany(Request request, Response response, CompanyData companyData) {
-        Company company = JsonTransformer.fromJson(request.body(), Company.class);
-        companyData.create(company);
+        Company company;
+        try {
+            company = JsonTransformer.fromJson(request.body(), Company.class);
+        } catch (Exception e){
+            return "Wrong input.";
+        }
+        if(request.body().trim().replaceAll("\n ", "").replaceAll(" ", "").length() <= 10)
+            return "No input data found!";
+        try {
+            companyData.create(company);
+        } catch (Exception e){
+            return new ErrorMessage(e.getMessage());
+        }
         return "|Company successfully added to DB.| Info: " + company.toString();
     }
 
     static Object updateCompany(Request request, Response response, CompanyData companyData) {
+        Company company;
         try {
-            Company company = JsonTransformer.fromJson(request.body(), Company.class);
+            company = JsonTransformer.fromJson(request.body(), Company.class);
+        } catch (Exception e){
+            return "Wrong input.";
+        }
+        try {
+            if(request.body().trim().replaceAll("\n ", "").replaceAll(" ", "").length() <= 10)
+                return "No input data found!";
+            if(!(company.getCompanyName() == null))
+                return "Need at least company name";
+            if(!(company.getCity() == null))
+                return "Need at least company city";
             int id = Integer.valueOf(request.params("id"));
             companyData.update(id, company);
             return "|Company successfully updated.| Info: " + company.toString();
         } catch (Exception e) {
             response.status(HTTP_NOT_FOUND);
-            return new ErrorMessage("There is no such company with id: " + request.params("id"));
+            return new ErrorMessage(e.getMessage());
         }
     }
 
@@ -64,14 +86,20 @@ class CompanyController {
     }
 
     static Object findCompanyByName(Request request, Response response, CompanyData companyData) {
+        if(companyData.findByCompanyName(request.params("company_name")).size() == 0)
+            return "No companies found";
         return companyData.findByCompanyName(request.params("company_name"));
     }
 
     static Object findCompaniesByCity(Request request, Response response, CompanyData companyData) {
+        if(companyData.findByLocation(request.params("city")).size() == 0)
+            return "No companies found";
         return companyData.findByLocation(request.params("city"));
     }
 
     static Object displayCompaniesByEmployeesQuantity(Request request, Response response, CompanyData companyData) {
+        if(companyData.findByEmployeeQuantity(request.params("quantity")).size() == 0)
+            return "No companies found";
         return companyData.findByEmployeeQuantity(request.params("quantity"));
     }
 }

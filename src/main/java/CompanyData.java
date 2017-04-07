@@ -29,7 +29,9 @@ class CompanyData {
                 (company) -> this.companies.put(company.getCompanyId(), company));
     }
 
-    void create(Company company) {
+    void create(Company company) throws Exception{
+        if(company.getCompanyName().length() < 3 || company.getCompanyName().equals(""))
+            throw new Exception("No company name found");
         company.setCompanyId(companies.size()+1);
         companies.put(company.getCompanyId(), company);
     }
@@ -44,7 +46,9 @@ class CompanyData {
         return companies.get(companyId);
     }
 
-    void update(int companyId, Company company) {
+    void update(int companyId, Company company) throws Exception {
+        if(companies.get(companyId) == null)
+            throw new Exception("There is no company with id: " + companyId);
         company.setCompanyId(companyId);
         companies.put(companyId, company);
     }
