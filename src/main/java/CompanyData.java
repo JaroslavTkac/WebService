@@ -30,7 +30,7 @@ class CompanyData {
     }
 
     void create(Company company) throws Exception{
-        if(company.getCompanyName().length() < 3 || company.getCompanyName().equals(""))
+        if(company.getCompanyName() == null || company.getCompanyName().length() < 3 || company.getCompanyName().equals(""))
             throw new Exception("No company name found");
         company.setCompanyId(companies.size()+1);
         companies.put(company.getCompanyId(), company);

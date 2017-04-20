@@ -10,6 +10,8 @@ import java.util.List;
 class CompanyController {
     private static final int HTTP_BAD_REQUEST = 400;
     private static final int HTTP_NOT_FOUND = 404;
+    private static final int HTTP_UNPROCESSABLE_ENTITY = 422;
+
 
     static Object getAllCompanies(Request request, Response response, CompanyData companyData) {
         return companyData.getAll();
@@ -20,6 +22,7 @@ class CompanyController {
             int id = Integer.valueOf(request.params("id"));
             Company company = companyData.get(id);
             if (company == null) {
+                response.status(HTTP_NOT_FOUND);
                 throw new Exception("There is no such company");
             }
             return company;
@@ -34,16 +37,22 @@ class CompanyController {
         try {
             company = JsonTransformer.fromJson(request.body(), Company.class);
         } catch (Exception e){
+            response.status(HTTP_BAD_REQUEST);
             return "Wrong input.";
         }
-        if(request.body().trim().replaceAll("\n ", "").replaceAll(" ", "").length() <= 10)
+
+        if(request.body().trim().replaceAll("\n ", "").replaceAll(" ", "").length() <= 10) {
+            response.status(HTTP_BAD_REQUEST);
             return "No input data found!";
+        }
+
         try {
             companyData.create(company);
         } catch (Exception e){
+            response.status(HTTP_UNPROCESSABLE_ENTITY);
             return new ErrorMessage(e.getMessage());
         }
-        return "|Company successfully added to DB.| Info: " + company.toString();
+        return "Company successfully added id: " + company.getCompanyId();
     }
 
     static Object updateCompany(Request request, Response response, CompanyData companyData) {
@@ -51,18 +60,23 @@ class CompanyController {
         try {
             company = JsonTransformer.fromJson(request.body(), Company.class);
         } catch (Exception e){
+            response.status(HTTP_BAD_REQUEST);
             return "Wrong input.";
         }
         try {
-            if(request.body().trim().replaceAll("\n ", "").replaceAll(" ", "").length() <= 10)
+            if(request.body().trim().replaceAll("\n ", "").replaceAll(" ", "").length() <= 10) {
+                response.status(HTTP_BAD_REQUEST);
                 return "No input data found!";
-            if(!(company.getCompanyName() == null))
-                return "Need at least company name";
-            if(!(company.getCity() == null))
-                return "Need at least company city";
+            }
+
+            if(company.getCompanyName() == null || company.getCompanyName().length() < 2 || company.getCompanyName().equals("")) {
+                response.status(HTTP_UNPROCESSABLE_ENTITY);
+                return "Please do not leave companyName field empty";
+            }
+
             int id = Integer.valueOf(request.params("id"));
             companyData.update(id, company);
-            return "|Company successfully updated.| Info: " + company.toString();
+            return "Company successfully updated id: " + company.getCompanyId();
         } catch (Exception e) {
             response.status(HTTP_NOT_FOUND);
             return new ErrorMessage(e.getMessage());
@@ -78,7 +92,7 @@ class CompanyController {
                 if (aList.getCompanyId() == id)
                     employeeData.delete(aList.getId());
             }
-            return "|Company successfully deleted.|";
+            return "Company with id: " + id + " successfully deleted.";
         } catch (Exception e) {
             response.status(HTTP_NOT_FOUND);
             return new ErrorMessage("There is no such company with id: " + request.params("id"));
@@ -86,20 +100,26 @@ class CompanyController {
     }
 
     static Object findCompanyByName(Request request, Response response, CompanyData companyData) {
-        if(companyData.findByCompanyName(request.params("company_name")).size() == 0)
+        if(companyData.findByCompanyName(request.params("company_name")).size() == 0) {
+            response.status(HTTP_NOT_FOUND);
             return "No companies found";
+        }
         return companyData.findByCompanyName(request.params("company_name"));
     }
 
     static Object findCompaniesByCity(Request request, Response response, CompanyData companyData) {
-        if(companyData.findByLocation(request.params("city")).size() == 0)
+        if(companyData.findByLocation(request.params("city")).size() == 0) {
+            response.status(HTTP_NOT_FOUND);
             return "No companies found";
+        }
         return companyData.findByLocation(request.params("city"));
     }
 
     static Object displayCompaniesByEmployeesQuantity(Request request, Response response, CompanyData companyData) {
-        if(companyData.findByEmployeeQuantity(request.params("quantity")).size() == 0)
+        if(companyData.findByEmployeeQuantity(request.params("quantity")).size() == 0) {
+            response.status(HTTP_NOT_FOUND);
             return "No companies found";
+        }
         return companyData.findByEmployeeQuantity(request.params("quantity"));
     }
 }

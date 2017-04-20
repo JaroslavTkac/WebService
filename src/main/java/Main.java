@@ -21,7 +21,7 @@ public class Main {
             //get companies by id
             get("/:id", (Request req, Response res) -> CompanyController.getCompany(req, res, companyData), new JsonTransformer());
             //get companies by name
-            get("/company_name/:company_name", (Request req, Response res) -> CompanyController.findCompanyByName(req, res, companyData), new JsonTransformer());
+            get("/name/:company_name", (Request req, Response res) -> CompanyController.findCompanyByName(req, res, companyData), new JsonTransformer());
             //get companies by city
             get("/city/:city", (Request req, Response res) -> CompanyController.findCompaniesByCity(req, res, companyData), new JsonTransformer());
             //add Company
