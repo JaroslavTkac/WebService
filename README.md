@@ -37,34 +37,37 @@ Rest servisas bus pasiekiamas naršyklėje adresu:
 
         pvz.: request'as tipo (GET) - localhost:80/companies/employees/size/12
 
+* Gauti darbuotojus kurie yra priregistruoti prie įmones su nurodytu ID.
+
+        pvz.: request'as tipo (GET) - localhost:80/companies/1/employees
 
 ---
 
 
 * Peržiūrėti visus esamus darbuotojus, kurie yra pridėti į web serviso duombazę. 
 
-        pvz.: request'as tipo (GET) - localhost:80/companies/employees/
+        pvz.: request'as tipo (GET) - localhost:80/employees
 * Pridėti darbuotoją į web serviso duombazę.
 
-        pvz.: request'as tipo (POST) - localhost:80/companies/employees/
+        pvz.: request'as tipo (POST) - localhost:80/employees/
 * Atnaujinti darbuotoją pagal nurodytą ID.
 
-        pvz.: request'as tipo (PUT) - localhost:80/companies/employees/1
+        pvz.: request'as tipo (PUT) - localhost:80/employees/1
 * Pašalinti darbuotoją pagal nurodytą ID.
 
-        pvz.: request'as tipo (DELETE) - localhost:80/companies/employees/1
+        pvz.: request'as tipo (DELETE) - localhost:80/employees/1
 * Gauti darbuotoją pagal nurodytą ID.
 
-        pvz.: request'as tipo (GET) - localhost:80/companies/employees/1
+        pvz.: request'as tipo (GET) - localhost:80/employees/1
 * Gauti darbuotoją pagal nurodytą vardą.
 
-        pvz.: request'as tipo (GET) - localhost:80/companies/employees/name/Mindaugas
+        pvz.: request'as tipo (GET) - localhost:80/employees/name/Mindaugas
 * Gauti darbuotojus pagal nurodytą patirties lygį(metais).
 
-        pvz.: request'as tipo (GET) - localhost:80/companies/employees/exp/3
+        pvz.: request'as tipo (GET) - localhost:80/employees/exp/3
 * Gauti darbuotojus pagal nurodytą specialybę.
 
-        pvz.: request'as tipo (GET) - localhost:80/companies/employees/qualification/Engineer
+        pvz.: request'as tipo (GET) - localhost:80/employees/qualification/Engineer
 
 
 

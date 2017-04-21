@@ -122,4 +122,19 @@ class CompanyController {
         }
         return companyData.findByEmployeeQuantity(request.params("quantity"));
     }
+
+    static Object findEmployeesInCompanyById(Request request, Response response, CompanyData companyData, EmployeeData employeeData) {
+        int id = Integer.valueOf(request.params("id"));
+        Company company = companyData.get(id);
+        if (company == null) {
+            response.status(HTTP_NOT_FOUND);
+            return "There is no such company";
+        }
+        try {
+            return companyData.findByEmplCompanyId(request.params("id"), employeeData);
+        } catch (Exception e) {
+            response.status(HTTP_NOT_FOUND);
+            return new ErrorMessage(e.getMessage());
+        }
+    }
 }

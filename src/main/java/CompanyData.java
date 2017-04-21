@@ -22,7 +22,10 @@ class CompanyData {
                         "mplas@inbox.lt", "+37065321234"),
                 new Company(4, "UAB <Laimas>",32, 5.0f,
                         "2003-05-19", "K.Plaukutis", "Klaipeda","Vytauto g. 2",
-                        "laimas@admin.lt", "+37065000900")
+                        "laimas@admin.lt", "+37065000900"),
+                new Company(5, "UAB <Laimas>",32, 5.0f,
+                    "2003-05-19", "K.Plaukutis", "Klaipeda","Vytauto g. 2",
+                    "laimas@admin.lt", "+37065000900")
         );
 
         usersArray.forEach(
@@ -72,5 +75,19 @@ class CompanyData {
         return companies.entrySet().stream().filter(
                 (entry) -> entry.getValue().getInsureEmployees() >= size
         ).map( Map.Entry::getValue ).collect(Collectors.toList());
+    }
+
+    List<Employee> findByEmplCompanyId(String companyId, EmployeeData employeeData) throws Exception{
+        int id = Integer.parseInt(companyId);
+        List<Employee> list = employeeData.getAll();
+        List<Employee> nlist = new ArrayList();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getCompanyId() == id) {
+                nlist.add(list.get(i));
+            }
+        }
+        if(nlist.size() == 0)
+            throw new Exception("Company has no employees");
+        return nlist;
     }
 }

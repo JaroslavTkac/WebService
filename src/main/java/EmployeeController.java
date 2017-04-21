@@ -49,7 +49,7 @@ class EmployeeController {
             return "Employee successfully added id: " + employee.getId();
         } catch (Exception e){
             response.status(HTTP_UNPROCESSABLE_ENTITY);
-            return new ErrorMessage(e.getMessage());
+            return new ErrorMessage(e.getMessage() + "s");
         }
     }
 
