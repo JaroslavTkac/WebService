@@ -21,6 +21,7 @@ class EmployeeController {
             Employee employee = employeeData.get(id);
             if (employee == null) {
                 response.status(HTTP_NOT_FOUND);
+                response.header("ERROR", "Not found!");
                 throw new Exception("There is no such employee");
             }
             return employee;
@@ -35,17 +36,20 @@ class EmployeeController {
         try {
             employee = JsonTransformer.fromJson(request.body(), Employee.class);
         } catch (Exception e){
+            response.header("ERROR", "Wrong input.");
             response.status(HTTP_BAD_REQUEST);
             return "Wrong input.";
         }
 
         if(request.body().trim().replaceAll("\n ", "").replaceAll(" ", "").length() <= 10) {
             response.status(HTTP_BAD_REQUEST);
+            response.header("ERROR", "Wrong input.");
             return "No input data found!";
         }
 
         try {
             employeeData.create(employee, companyData);
+            response.header("PATH","/employees/" + employee.getId());
             return "Employee successfully added id: " + employee.getId();
         } catch (Exception e){
             response.status(HTTP_UNPROCESSABLE_ENTITY);
@@ -59,19 +63,23 @@ class EmployeeController {
             employee = JsonTransformer.fromJson(request.body(), Employee.class);
         } catch (Exception e){
             response.status(HTTP_BAD_REQUEST);
+            response.header("ERROR", "Wrong input.");
             return "Wrong input.";
         }
 
         if(request.body().trim().replaceAll("\n ", "").replaceAll(" ", "").length() <= 10) {
             response.status(HTTP_BAD_REQUEST);
+            response.header("ERROR", "Wrong input.");
             return "No input data found!";
         }
 
         try {
             int id = Integer.valueOf(request.params("id"));
             employeeData.update(id, employee, companyData);
+            response.header("PATH","/employees/" + employee.getId());
             return "Employee successfully updated id: " + employee.getId();
         } catch (Exception e) {
+            response.header("ERROR", "Not found!");
             response.status(HTTP_NOT_FOUND);
             return new ErrorMessage(e.getMessage());
         }
@@ -83,6 +91,7 @@ class EmployeeController {
             employeeData.delete(id);
             return "Employee with id: " + id + " successfully deleted";
         } catch (Exception e) {
+            response.header("ERROR", "Not found!");
             response.status(HTTP_NOT_FOUND);
             return new ErrorMessage("There is no such employee with id: " + request.params("id"));
         }
@@ -90,6 +99,7 @@ class EmployeeController {
 
     static Object findEmployeesByName(Request request, Response response, EmployeeData employeeData) {
         if(employeeData.findEmployeesByName(request.params("name")).size() == 0) {
+            response.header("ERROR", "Not found!");
             response.status(HTTP_NOT_FOUND);
             return "No employees found";
         }
@@ -98,6 +108,7 @@ class EmployeeController {
 
     static Object findEmployeesByQualification(Request request, Response response, EmployeeData employeeData) {
         if(employeeData.findEmployeesByQualification(request.params("qualification")).size() == 0) {
+            response.header("ERROR", "Not found!");
             response.status(HTTP_NOT_FOUND);
             return "No employees found";
         }
@@ -106,6 +117,7 @@ class EmployeeController {
 
     static Object displayEmployeesByExperience(Request request, Response response, EmployeeData employeeData) {
         if(employeeData.findEmployeesByExperience(request.params("years")).size() == 0) {
+            response.header("ERROR", "Not found!");
             response.status(HTTP_NOT_FOUND);
             return "No employees found";
         }
