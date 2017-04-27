@@ -12,25 +12,27 @@ class CompanyData {
     CompanyData() {
         List<Company> usersArray = Arrays.asList(
                 new Company(1, "UAB <Roklitas>",13, 6.5f,
-                        "2015-02-15", "V.Stasys", "Vilnius","Vilniaus g. 2",
-                        "roklitas@inbox.lt", "+37065692001"),
+                        "2015-02-15", "J.Jonaitis", "Vilnius","Vilniaus g. 2",
+                        "roklitas@inbox.lt", "+37065692001", 0.0f),
                 new Company(2, "UAB <Plaituva>",3, 9.0f,
-                        "2011-01-28", "K.Malkauskas", "Vilnius","Savanoriu pr. 13",
-                        "plaituva@inbox.lt", "+37065649522"),
+                        "2011-01-28", "P.Petraitis", "Vilnius","Savanoriu pr. 13",
+                        "plaituva@inbox.lt", "+37065649522", 0.0f),
                 new Company(3, "UAB <MPLas>",5, 7.0f,
-                        "2016-09-05", "P.Vanagas", "Kaunas","Saltuvos g. 37",
-                        "mplas@inbox.lt", "+37065321234"),
+                        "2016-09-05", "R.Kazakevicius", "Kaunas","Saltuvos g. 37",
+                        "mplas@inbox.lt", "+37065321234", 0.0f),
                 new Company(4, "UAB <Laimas>",32, 5.0f,
-                        "2003-05-19", "K.Plaukutis", "Klaipeda","Vytauto g. 2",
-                        "laimas@admin.lt", "+37065000900"),
-                new Company(5, "UAB <Laimas>",32, 5.0f,
-                    "2003-05-19", "K.Plaukutis", "Klaipeda","Vytauto g. 2",
-                    "laimas@admin.lt", "+37065000900")
+                        "2003-05-19", "V.Vanagas", "Klaipeda","Vytauto g. 2",
+                        "laimas@admin.lt", "+37065000900", 0.0f)
         );
 
         usersArray.forEach(
                 (company) -> this.companies.put(company.getCompanyId(), company));
     }
+
+    Map getCompanies(){
+        return companies;
+    }
+
 
     void create(Company company) throws Exception{
         if(company.getCompanyName() == null || company.getCompanyName().length() < 3 || company.getCompanyName().equals(""))

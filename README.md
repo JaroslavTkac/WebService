@@ -11,6 +11,24 @@ Rest servisas bus pasiekiamas naršyklėje adresu:
 `localhost:80/companies`
 
 ### Mūsų Web servise galima daryti štai ką: ###
+
+
+
+---
+Naujas funkcionalas:
+
+kaip paleisti? Atsiusti docker-compose.yml ir parašyti komandą: docker-compose up -d
+
+*Kompanijos paduoda užklausą į banką ir gauna aktulu balansą.
+    
+        (GET) localhost:80/companies
+*Gaunam kompanijos banko sąskaita.
+    
+        (GET) localhost:80/companies/9/account
+
+---
+
+
 * Peržiūrėti visas esamas įmones, kurios yra pridėtos į web serviso duombazę.
 
         pvz.: request'as tipo (GET) -localhost:80/companies

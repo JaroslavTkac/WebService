@@ -9,6 +9,7 @@ class Company {
     private int companyId;
     private int insureEmployees;
     private float reviewRating;
+    private float balance;
     private String companyName;
     private String foundedAt;
     private String founder;
@@ -19,7 +20,7 @@ class Company {
 
     Company(int companyId, String companyName, int insureEmployees, float reviewRating,
                    String foundedAt, String founder, String city, String address,
-                   String email, String phoneNumber){
+                   String email, String phoneNumber, float balance){
         this.companyId = companyId;
         this.companyName = companyName;
         this.insureEmployees = insureEmployees;
@@ -30,6 +31,7 @@ class Company {
         this.address = address;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.balance = balance;
     }
 
     public String toString(){

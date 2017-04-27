@@ -16,6 +16,14 @@ public class Main {
         port(1234);
 
         path("/companies", () -> {
+
+
+            //get money
+            get("/:id/account", (Request req, Response res) -> CompanyController.getAccountSummary(req, res, companyData), new JsonTransformer());
+            //add bank account
+            post("/account", (Request req, Response res) -> CompanyController.addBankAccount(req, res, companyData), new JsonTransformer());
+
+
             //get all companies
             get("", (Request req, Response res) -> CompanyController.getAllCompanies(req, res, companyData), new JsonTransformer());
             //get companies by id

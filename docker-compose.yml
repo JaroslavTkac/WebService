@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  company:
+    image: "danmerix/company:4"
+    ports:
+      - 80:1234
+  bank:
+    image: "ricardaskazakevicius/superbank:v10"
+    ports:
+      - 90:1234
+    depends_on:
+      - company
