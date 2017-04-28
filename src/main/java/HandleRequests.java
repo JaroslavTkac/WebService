@@ -73,12 +73,7 @@ class HandleRequests {
         }
         in.close();
 
-        //printing result from response
-        //System.out.println(response.toString());
-
-
         return connection.getHeaderField(2);
-
     }
 
 

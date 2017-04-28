@@ -41,7 +41,7 @@ class CompanyController {
         Company company;
         try {
             for (int i = 1; i <= companyData.getCompanies().size(); i++) {
-                account = HandleRequests.sendGETResquest("http://bank:90/accounts/" + companyData.get(i).getBankId());
+                account = HandleRequests.sendGETResquest("http://bank:1234/accounts/" + companyData.get(i).getBankId());
                 company = companyData.get(i);
                 company.setBalance(getBalance(account));
                 companyData.update(companyData.get(i).getCompanyId(), company);
@@ -72,7 +72,7 @@ class CompanyController {
         }
 
         try {
-            String headerId = HandleRequests.sendPOST("http://bank:90/accounts", account.getName(), account.getSurname(), account.getBalance());
+            String headerId = HandleRequests.sendPOST("http://bank:1234/accounts", account.getName(), account.getSurname(), account.getBalance());
             list = Arrays.asList(headerId.split("/"));
         } catch (Exception e){
             response.status(HTTP_UNPROCESSABLE_ENTITY);
@@ -93,7 +93,7 @@ class CompanyController {
                 response.header("ERROR", "There is no such company with id: " + request.params("id"));
                 throw new Exception("There is no such company");
             }
-            return JsonTransformer.fromJson(HandleRequests.sendGET("http://bank:90/accounts/" + id)+"", Account.class);
+            return JsonTransformer.fromJson(HandleRequests.sendGET("http://bank:1234/accounts/" + id)+"", Account.class);
         } catch (Exception e) {
             response.status(HTTP_NOT_FOUND);
             response.header("ERROR", "Not found!");

@@ -4,10 +4,16 @@ services:
   company:
     image: "danmerix/company:4"
     ports:
-      - 80:1234
+      - 80:1235
+    networks:
+      - labas
   bank:
     image: "ricardaskazakevicius/superbank:v10"
     ports:
       - 90:1234
     depends_on:
       - company
+    networks:
+      - labas
+networks:
+  labas:
