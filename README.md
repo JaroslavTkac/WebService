@@ -25,6 +25,16 @@ kaip paleisti? Atsiusti docker-compose.yml ir parašyti komandą: docker-compose
 *Gaunam kompanijos banko sąskaita.
     
         (GET) localhost:80/companies/9/account
+        
+*Gaunam kompanijos banko sąskaita.
+           
+        (POST) localhost:80/companies/account
+        pavyzdys:
+        {
+            "name": "Testas",
+            "surname": "Jonaitis",
+            "balance": 100
+        }
 
 ---
 

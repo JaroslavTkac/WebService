@@ -41,7 +41,7 @@ class CompanyController {
         Company company;
         try {
             for (int i = 1; i <= companyData.getCompanies().size(); i++) {
-                account = HandleRequests.sendGETResquest("http://bank:90/accounts/" + companyData.get(i).getCompanyId());
+                account = HandleRequests.sendGETResquest("http://bank:90/accounts/" + companyData.get(i).getBankId());
                 company = companyData.get(i);
                 company.setBalance(getBalance(account));
                 companyData.update(companyData.get(i).getCompanyId(), company);
@@ -55,6 +55,7 @@ class CompanyController {
 
     static Object addBankAccount(Request request, Response response, CompanyData companyData){
         Account account;
+        List<String> list;
         try {
             account = JsonTransformer.fromJson(request.body(), Account.class);
             System.out.println(account.getId() + " " + account.getName() + " " +  account.getSurname()  + " " + account.getBalance());
@@ -70,26 +71,16 @@ class CompanyController {
             return "No input data found!";
         }
 
-        boolean exist = false;
         try {
-            //for(int i = 0; i < companyData.getCompanies().size(); i++){
-              //  if(companyData.get(i).getCompanyId() == account.getId()){
-                    HandleRequests.sendPOST("http://bank:90/accounts", account.getName(), account.getSurname(), account.getBalance());
-                    exist = true;
-                //}
-            //}
-            if(!exist) {
-                response.status(HTTP_NOT_FOUND);
-                response.header("ERROR", "Not found!");
-                return "There is no company left without bank account";
-            }
+            String headerId = HandleRequests.sendPOST("http://bank:90/accounts", account.getName(), account.getSurname(), account.getBalance());
+            list = Arrays.asList(headerId.split("/"));
         } catch (Exception e){
             response.status(HTTP_UNPROCESSABLE_ENTITY);
             response.header("ERROR", e.getMessage());
             return new ErrorMessage(e.getMessage());
         }
-        response.header("PATH","/companies/" + account.getId() + "/account");
-        return "Company bank account successfully added id: " + account.getId();
+        response.header("PATH","/companies/" + Integer.parseInt(list.get(2)) + "/account");
+        return "Bank account successfully added id: " + Integer.parseInt(list.get(2));
     }
 
     static Object getAccountSummary(Request request, Response response, CompanyData companyData){

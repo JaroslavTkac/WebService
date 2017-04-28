@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 class Company {
     private int companyId;
+    private int bankId;
     private int insureEmployees;
     private float reviewRating;
     private float balance;
@@ -18,9 +19,10 @@ class Company {
     private String email;
     private String phoneNumber;
 
-    Company(int companyId, String companyName, int insureEmployees, float reviewRating,
+    Company(int companyId, int bankId, String companyName, int insureEmployees, float reviewRating,
                    String foundedAt, String founder, String city, String address,
                    String email, String phoneNumber, float balance){
+        this.bankId = bankId;
         this.companyId = companyId;
         this.companyName = companyName;
         this.insureEmployees = insureEmployees;

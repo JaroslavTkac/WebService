@@ -6,6 +6,8 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by jaroslavtkaciuk on 27/04/2017.
@@ -34,7 +36,7 @@ class HandleRequests {
         System.out.println(response.toString());
         return response;
     }
-    static void sendPOST(String urlToRead, String name, String surname, float balance) throws Exception {
+    static String sendPOST(String urlToRead, String name, String surname, float balance) throws Exception {
         URL url = new URL(urlToRead);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -58,6 +60,8 @@ class HandleRequests {
         System.out.println("nSending 'POST' request to URL : " + url);
         System.out.println("Post Data : " + postJsonData);
         System.out.println("Response Code : " + responseCode);
+        System.out.println(connection.getHeaderField(2));
+
 
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(connection.getInputStream()));
@@ -70,7 +74,11 @@ class HandleRequests {
         in.close();
 
         //printing result from response
-        System.out.println(response.toString());
+        //System.out.println(response.toString());
+
+
+        return connection.getHeaderField(2);
+
     }
 
 
