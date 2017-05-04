@@ -17,25 +17,41 @@ Rest servisas bus pasiekiamas naršyklėje adresu:
 ---
 Naujas funkcionalas:
 
-kaip paleisti? Atsiusti docker-compose.yml ir parašyti komandą: docker-compose up -d
+kaip paleisti? 
 
-*Kompanijos paduoda užklausą į banką ir gauna aktulu balansą.
+        Atsiusti docker-compose.yml ir parašyti komandą: docker-compose up -d
+
+* Kompanijos paduoda užklausą į banką ir gauna aktulu balansą.
     
         (GET) localhost:80/companies
-*Gaunam kompanijos banko sąskaita.
+* Gaunam kompanijos banko sąskaita.
     
         (GET) localhost:80/companies/9/account
-        
-*Gaunam kompanijos banko sąskaita.
-           
-        (POST) localhost:80/companies/account
+* Gaunam pasirinktos kompanijos banko sąskaitos visas transakcijas.
+    
+        (GET) localhost:80/companies/9/account/transactions
+* Pridėti įmonę į web serviso duombazę, automatiškai susikuria banko sąskaita
+
+        (POST) - localhost:80/companies
+* Atnaujinti kompanijos banko sąskaita.
+         
+        (PUT) localhost:80/companies/9/account
         pavyzdys:
         {
             "name": "Testas",
             "surname": "Jonaitis",
             "balance": 100
         }
-
+* Įvykdom pinigų transakciją -> siunčiam pinigus naudojantis banko web servisu.
+         
+        (POST) localhost:80/companies/transactions
+        pavyzdys:
+        {
+            "senderId": 1,
+            "receiverId": 9,
+            "amount": 10
+        }
+       
 ---
 
 
