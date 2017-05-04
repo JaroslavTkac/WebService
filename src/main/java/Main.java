@@ -39,7 +39,6 @@ public class Main {
             post("/transactions", (Request req, Response res) -> CompanyController.addCompanyTransaction(req, res, companyData), new JsonTransformer());
             //get all Companies Transactions
             get("/:id/account/transactions", (Request req, Response res) -> CompanyController.getCompanyAccountTransactions(req, res, companyData), new JsonTransformer());
-
             //--------
 
 

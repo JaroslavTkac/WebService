@@ -22,7 +22,7 @@ class CompanyController {
         Company company;
         try {
             for (int i = 1; i <= companyData.getCompanies().size(); i++) {
-                account = HandleRequests.sendGETResquest("http://localhost:90/accounts/" + companyData.get(i).getBankId());
+                account = HandleRequests.sendGETResquest("http://bank:1234/accounts/" + companyData.get(i).getBankId());
                 company = companyData.get(i);
                 company.setBalance(getBalance(account));
                 companyData.update(companyData.get(i).getCompanyId(), company);
@@ -30,7 +30,6 @@ class CompanyController {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
         return companyData.getAll();
     }
 
@@ -44,7 +43,7 @@ class CompanyController {
                 response.header("ERROR", "There is no such company with id: " + request.params("id"));
                 throw new Exception("There is no such company");
             }
-            return JsonTransformer.fromJson(HandleRequests.GET("http://localhost:90/accounts/" + company.getBankId())+"", Account.class);
+            return JsonTransformer.fromJson(HandleRequests.GET("http://bank:1234/accounts/" + company.getBankId())+"", Account.class);
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -65,7 +64,7 @@ class CompanyController {
             }
             ArrayList<Object> list = new ArrayList<Object>();
             for(int i = 0; i < company.getTransactionList().size(); i++) {
-                list.add(JsonTransformer.fromJson(HandleRequests.GET("http://localhost:90/transactions/" + company.getTransactionList().get(i)) + "", Transaction.class));
+                list.add(JsonTransformer.fromJson(HandleRequests.GET("http://bank:1234/transactions/" + company.getTransactionList().get(i)) + "", Transaction.class));
             }
             return list;
         } catch (Exception e) {
@@ -83,7 +82,7 @@ class CompanyController {
                 response.header("ERROR", "There is no such company with id: " + request.params("id"));
                 throw new Exception("There is no such company");
             }
-            account = HandleRequests.sendGETResquest("http://localhost:90/accounts/" + company.getBankId());
+            account = HandleRequests.sendGETResquest("http://bank:1234/accounts/" + company.getBankId());
             company.setBalance(getBalance(account));
             return company;
         } catch (Exception e) {
@@ -113,7 +112,7 @@ class CompanyController {
 
         try {
             account = new Account(0, company.getCompanyName(), company.getFounder(), company.getBalance());
-            String headerId = HandleRequests.POSTBankAccount("http://localhost:90/accounts", account.getName(), account.getSurname(), account.getBalance());
+            String headerId = HandleRequests.POSTBankAccount("http://bank:1234/accounts", account.getName(), account.getSurname(), account.getBalance());
             list = Arrays.asList(headerId.split("/"));
             company.setBankId(Integer.parseInt(list.get(2)));
             companyData.create(company);
@@ -142,17 +141,30 @@ class CompanyController {
             return "No input data found!";
         }
         try{
-            String headerId = HandleRequests.POSTTracnsaction("http://localhost:90/transactions", transaction.getSenderId(),
-                    transaction.getReceiverId(), (float)transaction.getAmount());
+            int companySenderId = transaction.getSenderId();
+            int companyReceiverId = transaction.getReceiverId();
+            int companySenderBankId = 0;
+            int companyReceiverBankId = 0;
+            if(companyData.get(companySenderId) != null && companyData.get(companyReceiverId) != null){
+                companySenderBankId = companyData.get(companySenderId).getBankId();
+                companyReceiverBankId = companyData.get(companyReceiverId).getBankId();
+            }
+            else{
+                response.status(HTTP_NOT_FOUND);
+                response.header("ERROR", "There is no such company with that kind of id: " + companySenderId + " or " + companyReceiverId);
+                return("There is no such company with that kind of id " + companySenderId + " or " + companyReceiverId);
+            }
+
+            String headerId = HandleRequests.POSTTracnsaction("http://bank:1234/transactions", companySenderBankId,
+                    companyReceiverBankId, (float)transaction.getAmount());
             list = Arrays.asList(headerId.split("/"));
-            //System.out.println("list.size: " + list.size() + " 1. " + list.get(0) + " 2. "  + list.get(1) + " 3. " + list.get(2) + " 4. " + list.get(3));
+
             int id1 = Integer.parseInt(list.get(0)), id2 = Integer.parseInt(list.get(1));
-            System.out.println(id1 +  " " + id2);
 
             if(companyData.getByBankId(id1) != null && companyData.getByBankId(id2) != null){
-                int ad = Integer.parseInt(list.get(3));
-                companyData.getByBankId(id1).getTransactionList().add(ad);
-                companyData.getByBankId(id2).getTransactionList().add(ad);
+                int transactionId = Integer.parseInt(list.get(3));
+                companyData.getByBankId(id1).getTransactionList().add(transactionId);
+                companyData.getByBankId(id2).getTransactionList().add(transactionId);
             }
             else{
                 response.status(HTTP_NOT_FOUND);
@@ -166,8 +178,6 @@ class CompanyController {
             return new ErrorMessage(e.getMessage());
         }
         response.header("PATH","/companies/" + companyData.get(Integer.parseInt(list.get(0))).getCompanyId() + "/account/transactions");
-
-
         return "Company Transaction successfully completed";
     }
 
