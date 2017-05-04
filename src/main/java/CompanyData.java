@@ -10,23 +10,6 @@ class CompanyData {
     private Map<Integer, Company> companies = new HashMap();
 
     CompanyData() {
-        List<Company> usersArray = Arrays.asList(
-                new Company(1, 1, "UAB <Roklitas>",13, 6.5f,
-                        "2015-02-15", "J.Jonaitis", "Vilnius","Vilniaus g. 2",
-                        "roklitas@inbox.lt", "+37065692001", 0.0f),
-                new Company(2, 2,"UAB <Plaituva>",3, 9.0f,
-                        "2011-01-28", "P.Petraitis", "Vilnius","Savanoriu pr. 13",
-                        "plaituva@inbox.lt", "+37065649522", 0.0f),
-                new Company(3, 3,"UAB <MPLas>",5, 7.0f,
-                        "2016-09-05", "R.Kazakevicius", "Kaunas","Saltuvos g. 37",
-                        "mplas@inbox.lt", "+37065321234", 0.0f),
-                new Company(4, 4,"UAB <Laimas>",32, 5.0f,
-                        "2003-05-19", "V.Vanagas", "Klaipeda","Vytauto g. 2",
-                        "laimas@admin.lt", "+37065000900", 0.0f)
-        );
-
-        usersArray.forEach(
-                (company) -> this.companies.put(company.getCompanyId(), company));
     }
 
     Map getCompanies(){
@@ -38,6 +21,7 @@ class CompanyData {
         if(company.getCompanyName() == null || company.getCompanyName().length() < 3 || company.getCompanyName().equals(""))
             throw new Exception("No company name found");
         company.setCompanyId(companies.size()+1);
+        company.transactionList = new ArrayList<Integer>();
         companies.put(company.getCompanyId(), company);
     }
 
@@ -49,6 +33,17 @@ class CompanyData {
 
     Company get(int companyId) {
         return companies.get(companyId);
+    }
+
+    Company getByBankId(int bankId){
+        for(int i = 1; i <= companies.size(); i++){
+            //System.out.println(companies.get(i).getBankId() + " == " + bankId);
+            if(companies.get(i).getBankId() == bankId) {
+                //System.out.println("found");
+                return companies.get(i);
+            }
+        }
+        return null;
     }
 
     void update(int companyId, Company company) throws Exception {

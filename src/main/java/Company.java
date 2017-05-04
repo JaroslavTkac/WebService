@@ -1,5 +1,8 @@
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by jaroslavtkaciuk on 31/03/2017.
  */
@@ -18,6 +21,7 @@ class Company {
     private String address;
     private String email;
     private String phoneNumber;
+    ArrayList<Integer> transactionList = new ArrayList<Integer>();
 
     Company(int companyId, int bankId, String companyName, int insureEmployees, float reviewRating,
                    String foundedAt, String founder, String city, String address,
@@ -34,6 +38,7 @@ class Company {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.balance = balance;
+        transactionList = new ArrayList<Integer>();
     }
 
     public String toString(){

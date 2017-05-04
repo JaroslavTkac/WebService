@@ -1,6 +1,7 @@
 import spark.Request;
 import spark.Response;
 
+
 import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
 import static spark.Spark.*;
 
@@ -13,19 +14,35 @@ public class Main {
         CompanyData companyData = new CompanyData();
         EmployeeData employeeData = new EmployeeData();
 
-        port(1235);
+
+
+
+
+        port(1234);
 
         path("/companies", () -> {
 
-
-            //get money
-            get("/:id/account", (Request req, Response res) -> CompanyController.getAccountSummary(req, res, companyData), new JsonTransformer());
-            //add bank account
-            post("/account", (Request req, Response res) -> CompanyController.addBankAccount(req, res, companyData), new JsonTransformer());
-
-
-            //get all companies
+            //What's new here:
+            //--------
+            //get all companies (automatically LOADS all latest bank account balance from Bank web service)
             get("", (Request req, Response res) -> CompanyController.getAllCompanies(req, res, companyData), new JsonTransformer());
+            //get company account (automatically LOADS all latest bank account balance from Bank web service)
+            get("/:id/account", (Request req, Response res) -> CompanyController.getCompanyAccount(req, res, companyData), new JsonTransformer());
+            //add Company (automatically CREATES bank account in Bank web service)
+            post("", (Request req, Response res) -> CompanyController.addCompany(req, res, companyData), new JsonTransformer());
+            //delete Company by id (automatically DELETES bank account in Bank web service)
+            delete("/:id", (Request req, Response res) -> CompanyController.deleteCompanyById(req, res, companyData, employeeData), new JsonTransformer());
+            //update Company bank account
+            put("/:id/account", (Request req, Response res) -> CompanyController.updateCompanyBankAccount(req, res, companyData), new JsonTransformer());
+
+            //add Transaction
+            post("/transactions", (Request req, Response res) -> CompanyController.addCompanyTransaction(req, res, companyData), new JsonTransformer());
+            //get all Companies Transactions
+            get("/:id/account/transactions", (Request req, Response res) -> CompanyController.getCompanyAccountTransactions(req, res, companyData), new JsonTransformer());
+
+            //--------
+
+
             //get companies by id
             get("/:id", (Request req, Response res) -> CompanyController.getCompany(req, res, companyData), new JsonTransformer());
             //get companies by name
@@ -34,12 +51,8 @@ public class Main {
             get("/city/:city", (Request req, Response res) -> CompanyController.findCompaniesByCity(req, res, companyData), new JsonTransformer());
             //get employees form company
             get("/:id/employees", (Request req, Response res) -> CompanyController.findEmployeesInCompanyById(req, res, companyData, employeeData), new JsonTransformer());
-            //add Company
-            post("", (Request req, Response res) -> CompanyController.addCompany(req, res, companyData), new JsonTransformer());
             //update Company
             put("/:id", (Request req, Response res) -> CompanyController.updateCompany(req, res, companyData), new JsonTransformer());
-            //delete Company by id
-            delete("/:id", (Request req, Response res) -> CompanyController.deleteCompanyById(req, res, companyData, employeeData), new JsonTransformer());
         });
         //Employees
         path("/employees" , () -> {
@@ -71,5 +84,12 @@ public class Main {
 
         after((Request req, Response rep) -> rep.type("application/json"));
 
+        //init companies and bank account
+        try {
+            Thread.sleep(1000);
+            CompanyController.initWebService();
+        } catch(InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
     }
 }

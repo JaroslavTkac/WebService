@@ -4,7 +4,7 @@ services:
   company:
     image: "danmerix/company:4"
     ports:
-      - 80:1235
+      - 80:80
     networks:
       - labas
   bank:
