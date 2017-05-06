@@ -26,20 +26,20 @@ kaip paleisti?
         (GET) localhost:80/companies
 * Gaunam kompanijos banko sąskaita.
     
-        (GET) localhost:80/companies/9/account
+        (GET) localhost:80/companies/1/account
 * Gaunam pasirinktos kompanijos banko sąskaitos visas transakcijas.
     
-        (GET) localhost:80/companies/9/account/transactions
+        (GET) localhost:80/companies/1/account/transactions
 * Pridėti įmonę į web serviso duombazę, automatiškai susikuria banko sąskaita
 
         (POST) - localhost:80/companies
 * Atnaujinti kompanijos banko sąskaita.
          
-        (PUT) localhost:80/companies/9/account
+        (PUT) localhost:80/companies/1/account
         pavyzdys:
         {
-            "name": "Testas",
-            "surname": "Jonaitis",
+            "name": "UAB <Roklitas>",
+            "surname": "J.Jonaitis",
             "balance": 100
         }
 * Įvykdom pinigų transakciją -> siunčiam pinigus naudojantis banko web servisu.
@@ -48,7 +48,7 @@ kaip paleisti?
         pavyzdys:
         {
             "senderId": 1,
-            "receiverId": 9,
+            "receiverId": 2,
             "amount": 10
         }
        

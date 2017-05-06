@@ -116,7 +116,7 @@ class HandleRequests {
 
         return senderID + "/" + receiverID + "/" + amount + "/" + Arrays.asList(connection.getHeaderField(2).split("/")).get(2);
     }
-    static String PUTBankAccount(String urlToRead, String name, String surname, float balance) throws Exception {
+    static int PUTBankAccount(String urlToRead, String name, String surname, float balance) throws Exception {
         URL url = new URL(urlToRead);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -153,7 +153,7 @@ class HandleRequests {
         }
         in.close();
 
-        return connection.getHeaderField(2);
+        return responseCode;
     }
 
     static String sendGETResquest(String urlToRead) throws Exception {

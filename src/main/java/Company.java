@@ -11,9 +11,9 @@ import java.util.List;
 class Company {
     private int companyId;
     private int bankId;
-    private int insureEmployees;
-    private float reviewRating;
-    private float balance;
+    private int insureEmployees = -1;
+    private float reviewRating = -1f;
+    private float balance = -1f;
     private String companyName;
     private String foundedAt;
     private String founder;
