@@ -13,11 +13,19 @@ public class ErrorMessage {
     }
 
     public ErrorMessage(String message, String... args) {
-        this.message = String.format(message, args);
+        this.message = String.format(message, (Object[]) args);
     }
 
     ErrorMessage(Exception e) {
         this.message = e.getMessage();
     }
+
+    public String getMessage() {
+		return message;
+	}
+
+    public void setMessage(String message) {
+		this.message = message;
+	}
 }
 

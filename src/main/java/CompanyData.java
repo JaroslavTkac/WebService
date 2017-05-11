@@ -7,27 +7,29 @@ import java.util.stream.Collectors;
 
 class CompanyData {
 
-    private Map<Integer, Company> companies = new HashMap();
+    private Map<Integer, Company> companies = new HashMap<>();
 
     CompanyData() {
     }
 
-    Map getCompanies(){
+    Map<Integer, Company> getCompanies(){
         return companies;
     }
 
 
     void create(Company company) throws Exception{
-        if(company.getCompanyName() == null || company.getCompanyName().length() < 3 || company.getCompanyName().equals(""))
-            throw new Exception("No company name found");
+        if(company.getCompanyName() == null || company.getCompanyName().length() < 3 || company.getCompanyName().equals("")) {
+			throw new Exception("No company name found");
+		}
         company.setCompanyId(companies.size()+1);
         company.transactionList = new ArrayList<Integer>();
         companies.put(company.getCompanyId(), company);
     }
 
     void delete(int companyId) throws Exception {
-        if(companies.get(companyId) == null)
-            throw new Exception("There is no company with id: " + companyId);
+        if(companies.get(companyId) == null) {
+			throw new Exception("There is no company with id: " + companyId);
+		}
         companies.remove(companyId);
     }
 
@@ -47,8 +49,9 @@ class CompanyData {
     }
 
     void update(int companyId, Company company) throws Exception {
-        if(companies.get(companyId) == null)
-            throw new Exception("There is no company with id: " + companyId);
+        if(companies.get(companyId) == null) {
+			throw new Exception("There is no company with id: " + companyId);
+		}
         company.setCompanyId(companyId);
         companies.put(companyId, company);
     }
@@ -77,14 +80,15 @@ class CompanyData {
     List<Employee> findByEmplCompanyId(String companyId, EmployeeData employeeData) throws Exception{
         int id = Integer.parseInt(companyId);
         List<Employee> list = employeeData.getAll();
-        List<Employee> nlist = new ArrayList();
+        List<Employee> nlist = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getCompanyId() == id) {
                 nlist.add(list.get(i));
             }
         }
-        if(nlist.size() == 0)
-            throw new Exception("Company has no employees");
+        if(nlist.size() == 0) {
+			throw new Exception("Company has no employees");
+		}
         return nlist;
     }
 }

@@ -1,8 +1,5 @@
 import javax.net.ssl.HttpsURLConnection;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -82,7 +79,7 @@ class HandleRequests {
 
         return connection.getHeaderField(2);
     }
-    static String POSTTracnsaction(String urlToRead, int senderID, int receiverID, float amount) throws Exception {
+    static String POSTTransaction(String urlToRead, int senderID, int receiverID, float amount) throws Exception {
         URL url = new URL(urlToRead);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -137,11 +134,6 @@ class HandleRequests {
         wr.close();
 
         int responseCode = connection.getResponseCode();
-        //System.out.println("nSending 'POST' request to URL : " + url);
-        //System.out.println("Post Data : " + postJsonData);
-        //System.out.println("Response Code : " + responseCode);
-        //System.out.println(connection.getHeaderField(2));
-
 
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(connection.getInputStream()));
@@ -156,7 +148,7 @@ class HandleRequests {
         return responseCode;
     }
 
-    static String sendGETResquest(String urlToRead) throws Exception {
+    static String sendGETRequest(String urlToRead) throws Exception {
         StringBuilder result = new StringBuilder();
 
         URL url = new URL(urlToRead);
@@ -168,6 +160,7 @@ class HandleRequests {
         while ((line = rd.readLine()) != null) {
             result.append(line);
         }
+
         rd.close();
         return result.toString();
     }
@@ -223,6 +216,15 @@ class HandleRequests {
         }
         in.close();
 
+    }
+    static int testURL(String urlAddress) throws Exception {
+        URL url = new URL(urlAddress);
+
+        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.connect();
+
+        return connection.getResponseCode();
     }
 
 }

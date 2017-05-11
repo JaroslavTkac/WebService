@@ -5,15 +5,20 @@ import spark.Response;
 import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
 import static spark.Spark.*;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Created by jaroslavtkaciuk on 31/03/2017.
  */
 
 public class Main {
+
+	private static final Logger logger = LogManager.getLogger(Main.class);
+
     public static void main(String[] args) {
         CompanyData companyData = new CompanyData();
         EmployeeData employeeData = new EmployeeData();
-
 
         port(1234);
 

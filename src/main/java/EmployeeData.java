@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 class EmployeeData {
 
-    private Map<Integer, Employee> employees = new HashMap();
+    private Map<Integer, Employee> employees = new HashMap<>();
 
     EmployeeData() {
         List<Employee> usersArray = Arrays.asList(
@@ -37,14 +37,16 @@ class EmployeeData {
         if (company == null) {
             throw new Exception("There is no such company with id: " + employee.getCompanyId() + ". Can not add employee to nonexistent company.");
         }
-        if(employee.getName().length() < 1 || employee.getName().equals("") || employee.getName() == null)
-            throw new Exception("No employee name found");
+        if(employee.getName().length() < 1 || employee.getName().equals("") || employee.getName() == null) {
+			throw new Exception("No employee name found");
+		}
         employees.put(employee.getId(), employee);
     }
 
     void delete(int id) throws Exception {
-        if(employees.get(id) == null)
-            throw new Exception("There is no employee with id: " + id);
+        if(employees.get(id) == null) {
+			throw new Exception("There is no employee with id: " + id);
+		}
         employees.remove(id);
     }
 
@@ -58,8 +60,9 @@ class EmployeeData {
         if (company == null) {
             throw new Exception("There is no such company with id: " + employee.getCompanyId() + ". Can not add employee to nonexistent company.");
         }
-        if(employees.get(id) == null)
-            throw new Exception("There is no employee with id: " + id);
+        if(employees.get(id) == null) {
+			throw new Exception("There is no employee with id: " + id);
+		}
         employees.put(id, employee);
     }
 

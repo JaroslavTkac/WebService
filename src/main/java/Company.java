@@ -1,7 +1,6 @@
 import lombok.Data;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by jaroslavtkaciuk on 31/03/2017.
@@ -41,7 +40,8 @@ class Company {
         transactionList = new ArrayList<Integer>();
     }
 
-    public String toString(){
+    @Override
+	public String toString(){
         return  "Company ID: " + getCompanyId() + " " +
                 "Company Name: " + getCompanyName() + " " +
                 "Insure Employees: " + getInsureEmployees() + " " +
@@ -52,4 +52,6 @@ class Company {
                 "Location: " + getCity() + ", " + getAddress() + " " +
                 "Overall Company rating: " + getReviewRating() + "/10.0";
     }
+
+
 }
