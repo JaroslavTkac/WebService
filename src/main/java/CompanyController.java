@@ -26,8 +26,8 @@ class CompanyController {
     private static final int HTTP_UNPROCESSABLE_ENTITY = 422;
     private static final int HTTP_SERVICE_UNAVAILABLE = 503;
 
-    private static final String Company_Web_Service_URL = "localhost:1234";
-    private static final String Bank_Web_Service_URL = "localhost:90";
+    private static final String Company_Web_Service_URL = "company:80";
+    private static final String Bank_Web_Service_URL = "bank:1234";
 
 
     static List<Company> getAllCompanies(Request request, Response response, CompanyData companyData) {
