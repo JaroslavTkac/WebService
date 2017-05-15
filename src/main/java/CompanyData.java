@@ -22,7 +22,8 @@ class CompanyData {
 			throw new Exception("No company name found");
 		}
         company.setCompanyId(companies.size()+1);
-        company.transactionList = new ArrayList<Integer>();
+        company.transactionID = new ArrayList<Integer>();
+        company.transactionsListExpanded = new ArrayList<Transaction>();
         companies.put(company.getCompanyId(), company);
     }
 

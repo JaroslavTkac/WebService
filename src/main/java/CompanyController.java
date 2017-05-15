@@ -1,15 +1,9 @@
 import spark.Request;
 import spark.Response;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * Created by jaroslavtkaciuk on 31/03/2017.
@@ -17,9 +11,6 @@ import org.apache.logging.log4j.Logger;
 
 
 class CompanyController {
-	private static final Logger logger = LogManager.getLogger(CompanyController.class.getName());
-	private static final String SEPARATOR = "************";
-	private static final String NEW_LINE = "\n";
 
     private static final int HTTP_BAD_REQUEST = 400;
     private static final int HTTP_NOT_FOUND = 404;
@@ -28,11 +19,31 @@ class CompanyController {
 
     private static final String Company_Web_Service_URL = "company:80";
     private static final String Bank_Web_Service_URL = "bank:1234";
+    private static final String Logger_Web_Service_URL = "logger:1200";
 
 
+    static List<Log> getAllLogs(Request request, Response response, CompanyData companyData) {
+        Log log;
+        String countLogs = "";
+        List<Log> list = new ArrayList<>();
+        try {
+            countLogs = HandleRequests.GET("http://" + Logger_Web_Service_URL + "/logger").toString();
+            for(int i = 1; i <= countLoggedData(countLogs); i++) {
+                log = JsonTransformer.fromJson(HandleRequests.GET("http://" + Logger_Web_Service_URL + "/logger/" + i).toString(), Log.class);
+                list.add(log);
+            }
+        } catch (Exception e) {
+            response.status(HTTP_BAD_REQUEST);
+            response.header("ERROR", "Something went wrong!");
+            return list;
+        }
+        return list;
+    }
     static List<Company> getAllCompanies(Request request, Response response, CompanyData companyData) {
         String account;
         Company company;
+        String requestBody = request.body().replaceAll("}", "").replaceAll("\"", "")
+                .replaceAll("\\{", "").replaceAll("\n", "");
         try {
             for (int i = 1; i <= companyData.getCompanies().size(); i++) {
                 account = HandleRequests.sendGETRequest("http://" + Bank_Web_Service_URL + "/accounts/" + companyData.get(i).getBankId());
@@ -45,68 +56,114 @@ class CompanyController {
                 HandleRequests.testURL("http://" + Bank_Web_Service_URL + "/accounts");
             }
             catch (Exception p){
+                try {
+                    for (int i = 1; i <= companyData.getCompanies().size(); i++) {
+                        company = companyData.get(i);
+                        company.setBalance(0);
+                        companyData.update(companyData.get(i).getCompanyId(), company);
+                    }
+                } catch (Exception e1) {
+                }
                 response.status(HTTP_SERVICE_UNAVAILABLE);
                 response.header("ERROR", "Bank webservice is unavailable, actual balance cannot be shown");
-                logInformation("getAllCompanies", Level.ERROR, request, response, "Bank webservice is unavailable, actual balance cannot be shown");
+                logData(request.url(), "getAllCompanies", requestBody,
+                        getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                        getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                        getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             }
-            //response.header("ERROR", "Bank webservice is unavailable, actual balance cannot be shown");
             response.header("ERROR", "Some or all companies do not have bank account");
-            logInformation("getAllCompanies", Level.ERROR, request, response, companyData.getAll());
+            logData(request.url(), "getAllCompanies", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return companyData.getAll();
         }
-        logInformation("getAllCompanies", Level.INFO, request, response, companyData.getAll());
+        logData(request.url(), "getAllCompanies", requestBody,
+                getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
         return companyData.getAll();
     }
 	static Object getCompany(Request request, Response response, CompanyData companyData) {
         String account = "";
+        String requestBody = request.body().replaceAll("}", "").replaceAll("\"", "")
+                .replaceAll("\\{", "").replaceAll("\n", "");
         try {
             int id = Integer.valueOf(request.params("id"));
             Company company = companyData.get(id);
             if (company == null) {
                 response.status(HTTP_NOT_FOUND);
                 response.header("ERROR", "There is no such company with id: " + request.params("id"));
-                logInformation("getCompany", Level.ERROR, request, response, "There is no such company with id: " + id);
+                logData(request.url(), "getCompany", requestBody,
+                        getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                        getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                        getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
                 return "There is no such company";
             }
             try {
                 account = HandleRequests.sendGETRequest("http://" + Bank_Web_Service_URL + "/accounts/" + company.getBankId());
+                for(int i = 0; i < company.getTransactionID().size(); i++) {
+                    company.transactionsListExpanded.add(JsonTransformer.fromJson(HandleRequests.GET("http://" + Bank_Web_Service_URL + "/transactions/" + company.getTransactionID().get(i)) + "", Transaction.class));
+                }
             }
             catch (Exception e){
                 try {
                     HandleRequests.testURL("http://" + Bank_Web_Service_URL + "/accounts");
                 }
                 catch (Exception p){
+                    company.setBalance(0);
+                    companyData.update(id, company);
                     response.status(HTTP_SERVICE_UNAVAILABLE);
                     response.header("ERROR", "Bank webservice is unavailable");
-                    logInformation("getCompany", Level.ERROR, request, response, "Bank webservice is unavailable");
-                    return "Bank webservice is unavailable";
+                    logData(request.url(), "getCompany", requestBody,
+                            getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                            getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                            getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
+                    return company;
                 }
                 response.header("ERROR", "Company do not have bank account");
-                logInformation("getCompany", Level.ERROR, request, response, "Company do not have bank account");
+                logData(request.url(), "getCompany", requestBody,
+                        getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                        getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                        getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
                 return company;
             }
             company.setBalance(getBalance(account));
-            logInformation("getCompany", Level.INFO, request, response, company);
+            logData(request.url(), "", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return company;
         } catch (Exception e) {
             response.status(HTTP_NOT_FOUND);
             response.header("ERROR", "Not found!");
-            logInformation("getCompany", Level.ERROR, request, response, "There is no such company with id: " + request.params("id"));
+            logData(request.url(), "getCompany", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return new ErrorMessage("There is no such company with id: " + request.params("id"));
         }
     }
     static Object getCompanyAccount(Request request, Response response, CompanyData companyData){
+        String requestBody = request.body().replaceAll("}", "").replaceAll("\"", "")
+                .replaceAll("\\{", "").replaceAll("\n", "");
         try {
             int id = Integer.valueOf(request.params("id"));
             Company company = companyData.get(id);
             if (company == null) {
                 response.status(HTTP_NOT_FOUND);
                 response.header("ERROR", "There is no such company with id: " + request.params("id"));
-                logInformation("getCompanyAccount", Level.ERROR, request, response, "There is no such company with id: " + id);
+                logData(request.url(), "getCompanyAccount", requestBody,
+                        getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                        getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                        getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
                 return "There is no such company";
             }
             Object account = JsonTransformer.fromJson(HandleRequests.GET("http://" + Bank_Web_Service_URL + "/accounts/" + company.getBankId())+"", Account.class);
-            logInformation("getCompanyAccount", Level.INFO, request, response, "Account found!");
+            logData(request.url(), "getCompanyAccount", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return account;
         } catch (Exception e) {
             try {
@@ -115,36 +172,53 @@ class CompanyController {
             catch (Exception p){
                 response.status(HTTP_SERVICE_UNAVAILABLE);
                 response.header("ERROR", "Bank webservice is unavailable");
-                logInformation("getCompanyAccount", Level.ERROR, request, response, "Bank webservice is unavailable");
+                logData(request.url(), "getCompanyAccount", requestBody,
+                        getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                        getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                        getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
                 return "Bank webservice is unavailable";
             }
             response.status(HTTP_NOT_FOUND);
             response.header("ERROR", "Company do not have bank account");
-            logInformation("getCompanyAccount", Level.ERROR, request, response, "Company do not have bank account");
+            logData(request.url(), "getCompanyAccount", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return "Company do not have bank account";
         }
     }
     static Object getCompanyAccountTransactions(Request request, Response response, CompanyData companyData){
+        String requestBody = request.body().replaceAll("}", "").replaceAll("\"", "")
+                .replaceAll("\\{", "").replaceAll("\n", "");
         try {
             int id = Integer.valueOf(request.params("id"));
             Company company = companyData.get(id);
             if (company == null) {
                 response.status(HTTP_NOT_FOUND);
                 response.header("ERROR", "There is no such company with id: " + request.params("id"));
-                logInformation("getCompanyAccountTransactions", Level.ERROR, request, response, "There is no such company with id: " + id);
+                logData(request.url(), "getCompanyAccountTransactions", requestBody,
+                        getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                        getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                        getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
                 return "There is no such company";
             }
-            if(company.getTransactionList().size() == 0) {
+            if(company.getTransactionID().size() == 0) {
                 response.status(HTTP_NOT_FOUND);
                 response.header("ERROR", "Not found!");
-                logInformation("getCompanyAccountTransactions", Level.ERROR, request, response, "No transactions found");
+                logData(request.url(), "getCompanyAccountTransactions", requestBody,
+                        getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                        getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                        getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
                 return "No transactions found";
             }
             ArrayList<Object> list = new ArrayList<Object>();
-            for(int i = 0; i < company.getTransactionList().size(); i++) {
-                list.add(JsonTransformer.fromJson(HandleRequests.GET("http://" + Bank_Web_Service_URL + "/transactions/" + company.getTransactionList().get(i)) + "", Transaction.class));
+            for(int i = 0; i < company.getTransactionID().size(); i++) {
+                list.add(JsonTransformer.fromJson(HandleRequests.GET("http://" + Bank_Web_Service_URL + "/transactions/" + company.getTransactionID().get(i)) + "", Transaction.class));
             }
-            logInformation("getCompanyAccountTransactions", Level.INFO, request, response, "Transactions found!");
+            logData(request.url(), "getCompanyAccountTransactions", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return list;
         } catch (Exception e) {
             try {
@@ -153,12 +227,18 @@ class CompanyController {
             catch (Exception p){
                 response.status(HTTP_SERVICE_UNAVAILABLE);
                 response.header("ERROR", "Bank webservice is unavailable");
-                logInformation("getCompanyAccountTransactions", Level.ERROR, request, response, "Bank webservice is unavailable");
+                logData(request.url(), "getCompanyAccountTransactions", requestBody,
+                        getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                        getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                        getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
                 return "Bank webservice is unavailable";
             }
             response.status(HTTP_NOT_FOUND);
             response.header("ERROR", "Not found!");
-            logInformation("getCompanyAccountTransactions", Level.ERROR, request, response, "No transactions found");
+            logData(request.url(), "getCompanyAccountTransactions", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return "No transactions found";
         }
     }
@@ -167,19 +247,27 @@ class CompanyController {
         Account account;
         List<String> list;
         String headerId = "";
+        String requestBody = request.body().replaceAll("}", "").replaceAll("\"", "")
+                .replaceAll("\\{", "").replaceAll("\n", "");
         try {
             company = JsonTransformer.fromJson(request.body(), Company.class);
         } catch (Exception e){
             response.status(HTTP_BAD_REQUEST);
             response.header("ERROR", "Wrong Input");
-            logInformation("addCompany", Level.ERROR, request, response, "Wrong input.");
+            logData(request.url(), "addCompany", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return "Wrong input.";
         }
 
         if(request.body().trim().replaceAll("\n ", "").replaceAll(" ", "").length() <= 10) {
             response.status(HTTP_BAD_REQUEST);
             response.header("ERROR", "Wrong input.");
-            logInformation("addCompany", Level.ERROR, request, response, "No input data found!");
+            logData(request.url(), "addCompany", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return "No input data found!";
         }
 
@@ -191,38 +279,57 @@ class CompanyController {
                 company.setBankId(0);
                 companyData.create(company);
                 response.header("ERROR", "Bank webservice is unavailable");
-                logInformation("addCompany", Level.ERROR, request, response, "Bank webservice is currently unavailable, company created without bank account.");
+                logData(request.url(), "addCompany", requestBody,
+                        getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                        getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                        getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
                 return "Bank webservice is currently unavailable, company created without bank account.";
             }
 
             list = Arrays.asList(headerId.split("/"));
             company.setBankId(Integer.parseInt(list.get(2)));
+            
             companyData.create(company);
         } catch (Exception e){
             response.status(HTTP_UNPROCESSABLE_ENTITY);
             response.header("ERROR", e.getMessage());
-            logInformation("addCompany", Level.ERROR, request, response, "Unprocessable entity");
-            return new ErrorMessage(e.getMessage());
+            logData(request.url(), "addCompany", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
+            return "Something went wrong"; //TODO WTF ERRORAS
         }
         response.header("PATH","/companies/" + company.getCompanyId());
-        logInformation("addCompany", Level.INFO, request, response, "Company successfully added id: " + company.getCompanyId());
+        logData(request.url(), "addCompany", requestBody,
+                getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
         return "Company successfully added id: " + company.getCompanyId();
     }
+
     static Object addCompanyTransaction(Request request, Response response, CompanyData companyData){
         List<String> list;
         Transaction transaction;
+        String requestBody = request.body().replaceAll("}", "").replaceAll("\"", "")
+                .replaceAll("\\{", "").replaceAll("\n", "");
         try {
             transaction = JsonTransformer.fromJson(request.body(), Transaction.class);
         } catch (Exception e){
             response.status(HTTP_BAD_REQUEST);
             response.header("ERROR", "Wrong Input");
-            logInformation("addCompanyTransaction", Level.ERROR, request, response, "Wrong input.");
+            logData(request.url(), "addCompanyTransaction", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return "Wrong input.";
         }
         if(request.body().trim().replaceAll("\n ", "").replaceAll(" ", "").length() <= 10) {
             response.status(HTTP_BAD_REQUEST);
             response.header("ERROR", "Wrong input.");
-            logInformation("addCompanyTransaction", Level.ERROR, request, response, "No input data found!");
+            logData(request.url(), "addCompanyTransaction", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return "No input data found!";
         }
         try{
@@ -237,7 +344,10 @@ class CompanyController {
             else{
                 response.status(HTTP_NOT_FOUND);
                 response.header("ERROR", "There is no such company with that kind of id: " + companySenderId + " or " + companyReceiverId);
-                logInformation("addCompanyTransaction", Level.ERROR, request, response, "There is no such company with that kind of id: " + companySenderId + " or " + companyReceiverId);
+                logData(request.url(), "addCompanyTransaction", requestBody,
+                        getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                        getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                        getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
                 return("There is no such company with that kind of id " + companySenderId + " or " + companyReceiverId);
             }
             String headerId = "";
@@ -248,7 +358,10 @@ class CompanyController {
             catch (Exception e){
                 response.status(HTTP_SERVICE_UNAVAILABLE);
                 response.header("ERROR", "Bank webservice is unavailable");
-                logInformation("addCompanyTransaction", Level.ERROR, request, response, "Bank webservice is unavailable");
+                logData(request.url(), "addCompanyTransaction", requestBody,
+                        getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                        getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                        getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
                 return "Bank webservice is unavailable";
             }
 
@@ -258,27 +371,38 @@ class CompanyController {
             list = Arrays.asList(headerId.split("/"));
             int id1 = Integer.parseInt(list.get(0)), id2 = Integer.parseInt(list.get(1));
             int transactionId = Integer.parseInt(list.get(3));
-            companyData.getByBankId(id1).getTransactionList().add(transactionId);
-            companyData.getByBankId(id2).getTransactionList().add(transactionId);
+            companyData.getByBankId(id1).getTransactionID().add(transactionId);
+            companyData.getByBankId(id2).getTransactionID().add(transactionId);
         }
         catch (Exception e){
             response.status(HTTP_UNPROCESSABLE_ENTITY);
             response.header("ERROR", e.getMessage());
-            logInformation("addCompanyTransaction", Level.ERROR, request, response, "Unprocessable entity");
+            logData(request.url(), "addCompanyTransaction", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return new ErrorMessage(e.getMessage());
         }
         response.header("PATH","/companies/" + companyData.get(Integer.parseInt(list.get(0))).getCompanyId() + "/account/transactions");
-        logInformation("addCompanyTransaction", Level.INFO, request, response, "Company Transaction successfully completed");
+        logData(request.url(), "addCompanyTransaction", requestBody,
+                getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
         return "Company Transaction successfully completed";
     }
     static Object updateCompany(Request request, Response response, CompanyData companyData) {
         Company company;
+        String requestBody = request.body().replaceAll("}", "").replaceAll("\"", "")
+                .replaceAll("\\{", "").replaceAll("\n", "");
         try {
             company = JsonTransformer.fromJson(request.body(), Company.class);
         } catch (Exception e){
             response.status(HTTP_BAD_REQUEST);
             response.header("ERROR", "Wrong Input!");
-            logInformation("updateCompany", Level.ERROR, request, response, "Wrong input.");
+            logData(request.url(), "updateCompany", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return "Wrong input.";
         }
         try {
@@ -287,14 +411,20 @@ class CompanyController {
             if(request.body().trim().replaceAll("\n ", "").replaceAll(" ", "").length() <= 10) {
                 response.status(HTTP_BAD_REQUEST);
                 response.header("ERROR", "Wrong input.");
-                logInformation("updateCompany", Level.ERROR, request, response, "No input data found!");
+                logData(request.url(), "updateCompany", requestBody,
+                        getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                        getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                        getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
                 return "No input data found!";
             }
 
             if(company.getCompanyName() == null || company.getCompanyName().length() < 2 || company.getCompanyName().equals("")) {
                 response.status(HTTP_UNPROCESSABLE_ENTITY);
                 response.header("ERROR", "Empty name");
-                logInformation("updateCompany", Level.ERROR, request, response, "Please do not leave companyName field empty");
+                logData(request.url(), "updateCompany", requestBody,
+                        getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                        getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                        getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
                 return "Please do not leave companyName field empty";
             }
             Company curCompany = companyData.get(id);
@@ -323,28 +453,38 @@ class CompanyController {
             if(company.getPhoneNumber() == null) {
 				company.setPhoneNumber(curCompany.getPhoneNumber());
 			}
-            company.transactionList = curCompany.transactionList;
+            company.transactionID = curCompany.transactionID;
 
             companyData.update(id, company);
             response.header("PATH","/companies/" + company.getCompanyId());
-            logInformation("updateCompany", Level.INFO, request, response, "Company successfully updated id: " + company.getCompanyId());
+            logData(request.url(), "updateCompany", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return "Company successfully updated id: " + company.getCompanyId();
         } catch (Exception e) {
             response.status(HTTP_NOT_FOUND);
             response.header("ERROR", "Not found!");
-            logInformation("updateCompany", Level.ERROR, request, response, "Not found!");
+            logData(request.url(), "updateCompany", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return new ErrorMessage(e.getMessage());
         }
     }
     static Object updateCompanyBankAccount(Request request, Response response, CompanyData companyData) {
         Account account;
-        int responseCode = 0;
+        String requestBody = request.body().replaceAll("}", "").replaceAll("\"", "")
+                .replaceAll("\\{", "").replaceAll("\n", "");
         try {
             account = JsonTransformer.fromJson(request.body(), Account.class);
         } catch (Exception e){
             response.status(HTTP_BAD_REQUEST);
             response.header("ERROR", "Wrong Input!");
-            logInformation("updateCompanyBankAccount", Level.ERROR, request, response, "Wrong Input!");
+            logData(request.url(), "updateCompanyBankAccount", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return "Wrong input.";
         }
 
@@ -355,27 +495,39 @@ class CompanyController {
             if(request.body().trim().replaceAll("\n ", "").replaceAll(" ", "").length() <= 10) {
                 response.status(HTTP_BAD_REQUEST);
                 response.header("ERROR", "Wrong input.");
-                logInformation("updateCompanyBankAccount", Level.ERROR, request, response, "No input data found!");
+                logData(request.url(), "updateCompanyBankAccount", requestBody,
+                        getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                        getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                        getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
                 return "No input data found!";
             }
 
             if(account.getName() == null || account.getName().length() < 2 || account.getName().equals("")) {
                 response.status(HTTP_UNPROCESSABLE_ENTITY);
                 response.header("ERROR", "Empty name");
-                logInformation("updateCompanyBankAccount", Level.ERROR, request, response, "Please do not leave name field empty");
+                logData(request.url(), "updateCompanyBankAccount", requestBody,
+                        getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                        getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                        getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
                 return "Please do not leave name field empty";
             }
 
             if(account.getSurname() == null || account.getSurname().length() < 2 || account.getSurname().equals("")) {
                 response.status(HTTP_UNPROCESSABLE_ENTITY);
                 response.header("ERROR", "Empty surname");
-                logInformation("updateCompanyBankAccount", Level.ERROR, request, response, "Please do not leave surname field empty");
+                logData(request.url(), "updateCompanyBankAccount", requestBody,
+                        getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                        getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                        getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
                 return "Please do not leave surname field empty";
             }
             if(!account.getName().equals(companyData.get(companyId).getCompanyName())) {
                 response.status(HTTP_UNPROCESSABLE_ENTITY);
                 response.header("ERROR", "Name mismatch");
-                logInformation("updateCompanyBankAccount", Level.ERROR, request, response, "Account name and company name must match");
+                logData(request.url(), "updateCompanyBankAccount", requestBody,
+                        getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                        getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                        getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
                 return "Account name and company name must match";
             }
             try {
@@ -384,22 +536,33 @@ class CompanyController {
             catch (Exception p){
                 response.status(HTTP_SERVICE_UNAVAILABLE);
                 response.header("ERROR", "Bank webservice is unavailable");
-                logInformation("getCompanyAccountTransactions", Level.ERROR, request, response, "Bank webservice is unavailable");
+                logData(request.url(), "updateCompanyBankAccount", requestBody,
+                        getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                        getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                        getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
                 return "Bank webservice is unavailable";
             }
             HandleRequests.PUTBankAccount("http://" + Bank_Web_Service_URL + "/accounts/" + accountId, account.getName(), account.getSurname(), account.getBalance());
             response.header("PATH","/companies/" + companyId + "/account");
-            logInformation("updateCompanyBankAccount", Level.INFO, request, response, "Company account successfully updated id: " + companyId);
+            logData(request.url(), "updateCompanyBankAccount", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return "Company account successfully updated id: " + companyId;
         } catch (Exception e) {
             response.status(HTTP_NOT_FOUND);
             response.header("ERROR", "Not found!");
-            logInformation("updateCompanyBankAccount", Level.ERROR, request, response, "Not found!");
+            logData(request.url(), "updateCompanyBankAccount", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return "Company do not have bank account to update";
         }
     }
     static Object deleteCompanyById(Request request, Response response, CompanyData companyData, EmployeeData employeeData) {
         List<Employee> list = employeeData.getAll();
+        String requestBody = request.body().replaceAll("}", "").replaceAll("\"", "")
+                .replaceAll("\\{", "").replaceAll("\n", "");
         try {
             int id = Integer.valueOf(request.params("id"));
             System.out.println(companyData.get(id).getBankId());
@@ -414,68 +577,106 @@ class CompanyController {
 					employeeData.delete(aList.getId());
 				}
             }
-            logInformation("deleteCompanyById", Level.ERROR, request, response, "Company with id: " + id + " successfully deleted.");
+            logData(request.url(), "deleteCompanyById", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return "Company with id: " + id + " successfully deleted.";
         } catch (Exception e) {
             response.status(HTTP_NOT_FOUND);
             response.header("ERROR", "Not found!");
-            logInformation("deleteCompanyById", Level.ERROR, request, response, "There is no such company with id: " + request.params("id"));
+            logData(request.url(), "deleteCompanyById", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return new ErrorMessage("There is no such company with id: " + request.params("id"));
         }
     }
     static Object findCompanyByName(Request request, Response response, CompanyData companyData) {
     	List<Company> result = companyData.findByCompanyName(request.params("company_name"));
+        String requestBody = request.body().replaceAll("}", "").replaceAll("\"", "")
+                .replaceAll("\\{", "").replaceAll("\n", "");
         if(result.isEmpty()) {
             response.status(HTTP_NOT_FOUND);
             response.header("ERROR", "Not found!");
-            logInformation("findCompanyByName", Level.ERROR, request, response, "No companies found");
+            logData(request.url(), "findCompanyByName", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return "No companies found";
         }
-
-        logInformation("findCompanyByName", Level.INFO, request, response, "Companies found: " + result);
+        logData(request.url(), "findCompanyByName", requestBody,
+                getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
         return result;
     }
     static Object findCompaniesByCity(Request request, Response response, CompanyData companyData) {
     	List<Company> result = companyData.findByCompanyName(request.params("city"));
+        String requestBody = request.body().replaceAll("}", "").replaceAll("\"", "")
+                .replaceAll("\\{", "").replaceAll("\n", "");
         if(result.isEmpty()) {
             response.status(HTTP_NOT_FOUND);
             response.header("ERROR", "Not found!");
-            logInformation("findCompaniesByCity", Level.ERROR, request, response, "No companies found");
+            logData(request.url(), "findCompaniesByCity", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return "No companies found";
         }
-
-        logInformation("findCompaniesByCity", Level.INFO, request, response, "Companies found: " + result);
+        logData(request.url(), "findCompaniesByCity", requestBody,
+                getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
         return result;
     }
     static Object displayCompaniesByEmployeesQuantity(Request request, Response response, CompanyData companyData) {
     	List<Company> result = companyData.findByEmployeeQuantity(request.params("quantity"));
+        String requestBody = request.body().replaceAll("}", "").replaceAll("\"", "")
+                .replaceAll("\\{", "").replaceAll("\n", "");
         if(result.isEmpty()) {
             response.status(HTTP_NOT_FOUND);
             response.header("ERROR", "Not found!");
-            logInformation("displayCompaniesByEmployeesQuantity", Level.ERROR, request, response, "No companies found");
+            logData(request.url(), "displayCompaniesByEmployeesQuantity", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return "No companies found";
         }
-
-        logInformation("displayCompaniesByEmployeesQuantity", Level.INFO, request, response, "Companies found: " + result);
+        logData(request.url(), "displayCompaniesByEmployeesQuantity", requestBody,
+                getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
         return result;
     }
     static Object findEmployeesInCompanyById(Request request, Response response, CompanyData companyData, EmployeeData employeeData) {
         int id = Integer.valueOf(request.params("id"));
         Company company = companyData.get(id);
+        String requestBody = request.body().replaceAll("}", "").replaceAll("\"", "")
+                .replaceAll("\\{", "").replaceAll("\n", "");
         if (company == null) {
             response.status(HTTP_NOT_FOUND);
             response.header("ERROR", "Not found!");
-            logInformation("findEmployeesInCompanyById", Level.ERROR, request, response, "There is no such company");
+            logData(request.url(), "findEmployeesInCompanyById", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return "There is no such company";
         }
         try {
         	List<Employee> result = companyData.findByEmplCompanyId(request.params("id"), employeeData);
-        	logInformation("findEmployeesInCompanyById", Level.INFO, request, response, "Employees found: " + result);
+            logData(request.url(), "findEmployeesInCompanyById", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return result;
         } catch (Exception e) {
             response.status(HTTP_NOT_FOUND);
             response.header("ERROR", "Not found!");
-            logInformation("findEmployeesInCompanyById", Level.ERROR, request, response, "Not found!");
+            logData(request.url(), "findEmployeesInCompanyById", requestBody,
+                    getStringFromResponseByName(response.raw().toString(), "PATH:"),
+                    getStringFromResponseByName(response.raw().toString(), "METHOD:"),
+                    getStringFromResponseByName(response.raw().toString(), "ERROR:"), response.status());
             return new ErrorMessage(e.getMessage());
         }
 
@@ -519,52 +720,41 @@ class CompanyController {
         }
         return Float.parseFloat(value.toString());
     }
-
-    private static void logInformation(String methodName, Level logLevel, Request request, Response response, Object responseData) {
-    	logRequest(methodName, logLevel, request);
-    	logResponse(methodName, logLevel, response, responseData);
-	}
-
-    private static void logRequest(String methodName, Level logLevel, Request request) {
-    	String information = NEW_LINE + "Request for: " + methodName + NEW_LINE + SEPARATOR + NEW_LINE;
-    	information = information + "request params: " + logMapValues(request.params()) + NEW_LINE + SEPARATOR + NEW_LINE;
-    	information = information + "request body: " + request.body() + NEW_LINE + SEPARATOR + NEW_LINE;
-
-    	if (Level.ERROR.equals(logLevel)) {
-    		logger.error(information);
-    		return;
-    	}
-
-    	logger.info(information);
+    static void logData(String URL, String method, String request, String headerPATH, String headerMETHOD, String headerERROR, int responseCode){
+        try {
+            HandleRequests.POSTLoggedData("http://" + Logger_Web_Service_URL + "/logger",
+                    URL, method, request, headerPATH, headerMETHOD, headerERROR, responseCode);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Something Went Wrong");
+        }
     }
+    static String getStringFromResponseByName(String response, String type){
+        String rezTemp = "";
+        List<String> list = Arrays.asList(response.split("\\s+"));
 
-    private static String logMapValues(Map<String, String> params) {
-		String result = "";
-		if (params.isEmpty()) {
-			result = result + "empty";
-			return result;
-		}
-
-		for (Entry<String, String> entry : params.entrySet()) {
-			result = result + "param key: " + entry.getKey() + ", param value: " + entry.getValue() + NEW_LINE;
-		}
-
-		return result;
-	}
-
-	private static void logResponse(String methodName, Level logLevel, Response response, Object responseData) {
-    	String information = NEW_LINE + "Response from: " + methodName + NEW_LINE + SEPARATOR + NEW_LINE;
-    	information = information + "response body: " + response.body() + NEW_LINE + SEPARATOR + NEW_LINE;
-    	information = information + "response status: " + response.status() + NEW_LINE + SEPARATOR + NEW_LINE;
-    	information = information + "response data: " + responseData + NEW_LINE + SEPARATOR + NEW_LINE;
-
-    	if (Level.ERROR.equals(logLevel)) {
-    		logger.error(information);
-    		return;
-    	}
-
-    	logger.info(information);
+        for (int i = 0; i < list.size(); i++){
+            if(list.get(i).equals(type) && type.equals("METHOD:"))
+                return list.get(i + 1);
+            if(list.get(i).equals(type) && type.equals("PATH:"))
+                return list.get(i + 1);
+            if(list.get(i).equals("ERROR:") && type.equals("ERROR:"))
+                for(int j = i; j < list.size(); j++){
+                    if(list.size() > (j + 1))
+                        if(!list.get(j + 1).equals("PATH:") && !list.get(j + 1).equals("METHOD:"))
+                            rezTemp += list.get(j + 1) + " ";
+                        else
+                            return rezTemp;
+                }
+        }
+        return rezTemp;
     }
-
-
+    private static int countLoggedData(String loggedDataJSON){
+        int counter = 0;
+        for(int i = 0; i < loggedDataJSON.length(); i++){
+            if(loggedDataJSON.charAt(i) == '{')
+                counter++;
+        }
+        return counter;
+    }
 }

@@ -7,6 +7,14 @@ services:
       - 80:80
     networks:
       - labas
+  logger:
+    image: "danmerix/logger:1"
+    ports:
+      - 100:1200
+    depends_on:
+      - company
+    networks:
+      - labas
   bank:
     image: "ricardaskazakevicius/superbank:v10"
     ports:
@@ -15,5 +23,6 @@ services:
       - company
     networks:
       - labas
+
 networks:
   labas:

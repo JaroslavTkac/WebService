@@ -20,7 +20,8 @@ class Company {
     private String address;
     private String email;
     private String phoneNumber;
-    ArrayList<Integer> transactionList = new ArrayList<Integer>();
+    ArrayList<Integer> transactionID = new ArrayList<Integer>();
+    ArrayList<Transaction> transactionsListExpanded = new ArrayList<Transaction>();
 
     Company(int companyId, int bankId, String companyName, int insureEmployees, float reviewRating,
                    String foundedAt, String founder, String city, String address,
@@ -37,7 +38,8 @@ class Company {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.balance = balance;
-        transactionList = new ArrayList<Integer>();
+        transactionID = new ArrayList<Integer>();
+        transactionsListExpanded = new ArrayList<Transaction>();
     }
 
     @Override
