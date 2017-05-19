@@ -10,7 +10,7 @@ services:
   logger:
     image: "danmerix/logger:1"
     ports:
-      - 100:1200
+      - 30:1200
     depends_on:
       - company
     networks:

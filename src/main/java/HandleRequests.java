@@ -26,7 +26,7 @@ class HandleRequests {
         }
         in.close();
 
-        System.out.println(response.toString());
+        //System.out.println(response.toString());
         return response;
     }
     static String sendGETRequest(String urlToRead) throws Exception {
@@ -196,8 +196,8 @@ class HandleRequests {
         out.close();
 
         int responseCode = connection.getResponseCode();
-        System.out.println("nSending 'POST' request to URL : " + url);
-        System.out.println("Response Code : " + responseCode);
+        //System.out.println("nSending 'POST' request to URL : " + url);
+        //System.out.println("Response Code : " + responseCode);
     }
 
 
