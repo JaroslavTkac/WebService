@@ -2,29 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="90cf6eb9-3cdd-4235-a658-dc1cf37cfedd" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/Log.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_logging_commons_logging_1_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_api_2_6.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_core_2_6.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/CompanyController.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/Main.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/log4j2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/test.log" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Company.class" afterPath="$PROJECT_DIR$/target/classes/Company.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/CompanyData.class" afterPath="$PROJECT_DIR$/target/classes/CompanyData.class" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/CompanyController.class" afterPath="$PROJECT_DIR$/target/classes/CompanyController.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/EmployeeController.class" afterPath="$PROJECT_DIR$/target/classes/EmployeeController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/HandleRequests.class" afterPath="$PROJECT_DIR$/target/classes/HandleRequests.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Main.class" afterPath="$PROJECT_DIR$/target/classes/Main.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WebService.iml" afterPath="$PROJECT_DIR$/WebService.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docker-compose.yml" afterPath="$PROJECT_DIR$/docker-compose.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Company.java" afterPath="$PROJECT_DIR$/src/main/java/Company.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/CompanyController.java" afterPath="$PROJECT_DIR$/src/main/java/CompanyController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/CompanyData.java" afterPath="$PROJECT_DIR$/src/main/java/CompanyData.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/EmployeeController.java" afterPath="$PROJECT_DIR$/src/main/java/EmployeeController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/HandleRequests.java" afterPath="$PROJECT_DIR$/src/main/java/HandleRequests.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Main.java" afterPath="$PROJECT_DIR$/src/main/java/Main.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -41,10 +28,10 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1860">
+            <state relative-caret-position="105">
               <caret line="12" column="19" lean-forward="false" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -56,14 +43,20 @@
       <file leaf-file-name="CompanyController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/CompanyController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="590">
-              <caret line="724" column="34" lean-forward="false" selection-start-line="724" selection-start-column="34" selection-end-line="724" selection-end-column="34" />
+            <state relative-caret-position="11085">
+              <caret line="864" column="0" lean-forward="false" selection-start-line="819" selection-start-column="4" selection-end-line="864" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#12373#12381#0" expanded="true" />
+                <element signature="method#getAllLogs#0;class#CompanyController#0" expanded="false" />
+                <element signature="method#initWebService#0;class#CompanyController#0" expanded="false" />
                 <element signature="method#getBalance#0;class#CompanyController#0" expanded="false" />
+                <element signature="method#logData#0;class#CompanyController#0" expanded="false" />
                 <element signature="method#getStringFromResponseByName#0;class#CompanyController#0" expanded="false" />
                 <element signature="method#countLoggedData#0;class#CompanyController#0" expanded="false" />
+                <element signature="method#logInformation#0;class#CompanyController#0" expanded="false" />
+                <element signature="method#logRequest#0;class#CompanyController#0" expanded="false" />
+                <element signature="method#logMapValues#0;class#CompanyController#0" expanded="false" />
+                <element signature="method#logResponse#0;class#CompanyController#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -72,49 +65,28 @@
       <file leaf-file-name="EmployeeController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/EmployeeController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3247">
-              <caret line="223" column="49" lean-forward="false" selection-start-line="223" selection-start-column="49" selection-end-line="223" selection-end-column="49" />
+            <state relative-caret-position="584">
+              <caret line="255" column="116" lean-forward="false" selection-start-line="255" selection-start-column="116" selection-end-line="255" selection-end-column="116" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="method#logInformation#0;class#EmployeeController#0" expanded="false" />
+                <element signature="method#logRequest#0;class#EmployeeController#0" expanded="false" />
+                <element signature="method#logMapValues#0;class#EmployeeController#0" expanded="false" />
+                <element signature="method#logResponse#0;class#EmployeeController#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Log.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Log.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="29" column="23" lean-forward="false" selection-start-line="29" selection-start-column="23" selection-end-line="29" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HandleRequests.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/HandleRequests.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="48" column="18" lean-forward="false" selection-start-line="48" selection-start-column="18" selection-end-line="48" selection-end-column="18" />
-              <folding>
-                <element signature="method#sendGETRequest#0;class#HandleRequests#0" expanded="false" />
-                <element signature="method#POSTBankAccount#0;class#HandleRequests#0" expanded="false" />
-                <element signature="method#POSTTransaction#0;class#HandleRequests#0" expanded="false" />
-                <element signature="method#PUTBankAccount#0;class#HandleRequests#0" expanded="false" />
-                <element signature="method#DELETE#0;class#HandleRequests#0" expanded="false" />
-                <element signature="method#initMyWebserviceWithPOSTMethod#0;class#HandleRequests#0" expanded="false" />
-                <element signature="method#testURL#0;class#HandleRequests#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="docker-compose.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/docker-compose.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" column="7" lean-forward="true" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
-              <folding />
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="226">
+                <caret line="25" column="8" lean-forward="false" selection-start-line="25" selection-start-column="8" selection-end-line="25" selection-end-column="33" />
+                <folding />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -161,7 +133,6 @@
         <option value="$PROJECT_DIR$/src/main/java/EmployeeData.java" />
         <option value="$MAVEN_REPOSITORY$/com/sparkjava/spark-core/2.5.5/spark-core-2.5.5.jar!/spark/Route.class" />
         <option value="$PROJECT_DIR$/Dockerfile" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/main/java/Employee.java" />
         <option value="$PROJECT_DIR$/src/main/java/Transaction.java" />
         <option value="$PROJECT_DIR$/src/main/java/Account.java" />
@@ -170,10 +141,11 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/Log.java" />
         <option value="$PROJECT_DIR$/src/main/java/HandleRequests.java" />
-        <option value="$PROJECT_DIR$/src/main/java/EmployeeController.java" />
         <option value="$PROJECT_DIR$/docker-compose.yml" />
-        <option value="$PROJECT_DIR$/src/main/java/CompanyController.java" />
         <option value="$PROJECT_DIR$/src/main/java/Main.java" />
+        <option value="$PROJECT_DIR$/src/main/java/CompanyController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/EmployeeController.java" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -193,7 +165,7 @@
   <component name="ProjectFrameBounds">
     <option name="y" value="22" />
     <option name="width" value="1680" />
-    <option name="height" value="951" />
+    <option name="height" value="952" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -210,7 +182,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -255,14 +227,36 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebService" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebService" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="java" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -276,7 +270,11 @@
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
@@ -763,12 +761,14 @@
       <workItem from="1493976039238" duration="8630000" />
       <workItem from="1494509778628" duration="6791000" />
       <workItem from="1494573685822" duration="3895000" />
-      <workItem from="1494595724792" duration="22661000" />
+      <workItem from="1494595724792" duration="22840000" />
+      <workItem from="1495103782537" duration="3509000" />
+      <workItem from="1495172941736" duration="138000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="122592000" />
+    <option name="totallyTimeSpent" value="126418000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -780,37 +780,37 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1680" height="951" extended-state="0" />
+    <frame x="0" y="22" width="1680" height="952" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32906976" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.327551" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32844242" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40207714" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4011628" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1984127" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1923077" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39909297" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39909297" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.327551" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297619" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32879817" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -866,14 +866,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/CompanyData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="840">
-          <caret line="59" column="57" lean-forward="false" selection-start-line="59" selection-start-column="57" selection-end-line="59" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/EmployeeController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1410">
@@ -886,8 +878,8 @@
         <state relative-caret-position="300">
           <caret line="20" column="32" lean-forward="true" selection-start-line="19" selection-start-column="32" selection-end-line="20" selection-end-column="32" />
           <folding>
-            <element signature="e#539#548#0" expanded="true" />
-            <element signature="e#619#632#0" expanded="true" />
+            <element signature="e#539#548#0" expanded="false" />
+            <element signature="e#619#632#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -912,10 +904,16 @@
           <caret line="68" column="9" lean-forward="true" selection-start-line="68" selection-start-column="9" selection-end-line="68" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12373#12381#0" expanded="true" />
+            <element signature="method#getAllLogs#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#initWebService#0;class#CompanyController#0" expanded="false" />
             <element signature="method#getBalance#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logData#0;class#CompanyController#0" expanded="false" />
             <element signature="method#getStringFromResponseByName#0;class#CompanyController#0" expanded="false" />
             <element signature="method#countLoggedData#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logInformation#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logRequest#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logMapValues#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logResponse#0;class#CompanyController#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -936,10 +934,16 @@
           <caret line="33" column="23" lean-forward="true" selection-start-line="33" selection-start-column="23" selection-end-line="33" selection-end-column="23" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12373#12381#0" expanded="true" />
+            <element signature="method#getAllLogs#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#initWebService#0;class#CompanyController#0" expanded="false" />
             <element signature="method#getBalance#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logData#0;class#CompanyController#0" expanded="false" />
             <element signature="method#getStringFromResponseByName#0;class#CompanyController#0" expanded="false" />
             <element signature="method#countLoggedData#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logInformation#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logRequest#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logMapValues#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logResponse#0;class#CompanyController#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -955,7 +959,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
           <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1005,10 +1008,16 @@
           <caret line="54" column="22" lean-forward="true" selection-start-line="54" selection-start-column="22" selection-end-line="54" selection-end-column="22" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12373#12381#0" expanded="true" />
+            <element signature="method#getAllLogs#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#initWebService#0;class#CompanyController#0" expanded="false" />
             <element signature="method#getBalance#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logData#0;class#CompanyController#0" expanded="false" />
             <element signature="method#getStringFromResponseByName#0;class#CompanyController#0" expanded="false" />
             <element signature="method#countLoggedData#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logInformation#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logRequest#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logMapValues#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logResponse#0;class#CompanyController#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1050,10 +1059,16 @@
           <caret line="15" column="23" lean-forward="false" selection-start-line="15" selection-start-column="23" selection-end-line="15" selection-end-column="23" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12373#12381#0" expanded="true" />
+            <element signature="method#getAllLogs#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#initWebService#0;class#CompanyController#0" expanded="false" />
             <element signature="method#getBalance#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logData#0;class#CompanyController#0" expanded="false" />
             <element signature="method#getStringFromResponseByName#0;class#CompanyController#0" expanded="false" />
             <element signature="method#countLoggedData#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logInformation#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logRequest#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logMapValues#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logResponse#0;class#CompanyController#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1094,8 +1109,8 @@
         <state relative-caret-position="75">
           <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding>
-            <element signature="e#539#548#0" expanded="true" />
-            <element signature="e#619#632#0" expanded="true" />
+            <element signature="e#539#548#0" expanded="false" />
+            <element signature="e#619#632#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1106,10 +1121,16 @@
           <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12373#12381#0" expanded="true" />
+            <element signature="method#getAllLogs#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#initWebService#0;class#CompanyController#0" expanded="false" />
             <element signature="method#getBalance#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logData#0;class#CompanyController#0" expanded="false" />
             <element signature="method#getStringFromResponseByName#0;class#CompanyController#0" expanded="false" />
             <element signature="method#countLoggedData#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logInformation#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logRequest#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logMapValues#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logResponse#0;class#CompanyController#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1188,21 +1209,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="371">
-            <caret line="43" column="9" lean-forward="true" selection-start-line="39" selection-start-column="8" selection-end-line="43" selection-end-column="9" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Dockerfile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="10" column="9" lean-forward="false" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1227,8 +1237,8 @@
         <state relative-caret-position="285">
           <caret line="41" column="64" lean-forward="false" selection-start-line="41" selection-start-column="64" selection-end-line="41" selection-end-column="64" />
           <folding>
-            <element signature="e#539#548#0" expanded="true" />
-            <element signature="e#619#632#0" expanded="true" />
+            <element signature="e#539#548#0" expanded="false" />
+            <element signature="e#619#632#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1249,37 +1259,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="960">
-          <caret line="64" column="17" lean-forward="false" selection-start-line="64" selection-start-column="17" selection-end-line="64" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/CompanyData.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-286">
           <caret line="30" column="20" lean-forward="false" selection-start-line="30" selection-start-column="20" selection-end-line="30" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/EmployeeController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3247">
-          <caret line="223" column="49" lean-forward="false" selection-start-line="223" selection-start-column="49" selection-end-line="223" selection-end-column="49" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/docker-compose.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
-          <caret line="17" column="7" lean-forward="true" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
-          <folding />
+          <caret line="17" column="7" lean-forward="false" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -1293,7 +1283,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/HandleRequests.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
+        <state relative-caret-position="450">
           <caret line="48" column="18" lean-forward="false" selection-start-line="48" selection-start-column="18" selection-end-line="48" selection-end-column="18" />
           <folding>
             <element signature="method#sendGETRequest#0;class#HandleRequests#0" expanded="false" />
@@ -1307,27 +1297,74 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/CompanyController.java">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="590">
-          <caret line="724" column="34" lean-forward="false" selection-start-line="724" selection-start-column="34" selection-end-line="724" selection-end-column="34" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#12373#12381#0" expanded="true" />
-            <element signature="method#getBalance#0;class#CompanyController#0" expanded="false" />
-            <element signature="method#getStringFromResponseByName#0;class#CompanyController#0" expanded="false" />
-            <element signature="method#countLoggedData#0;class#CompanyController#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="960">
+          <caret line="64" column="17" lean-forward="false" selection-start-line="64" selection-start-column="17" selection-end-line="64" selection-end-column="17" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1860">
+        <state relative-caret-position="105">
           <caret line="12" column="19" lean-forward="false" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/log4j2.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/CompanyController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11085">
+          <caret line="864" column="0" lean-forward="false" selection-start-line="819" selection-start-column="4" selection-end-line="864" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#getAllLogs#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#initWebService#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#getBalance#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logData#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#getStringFromResponseByName#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#countLoggedData#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logInformation#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logRequest#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logMapValues#0;class#CompanyController#0" expanded="false" />
+            <element signature="method#logResponse#0;class#CompanyController#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/EmployeeController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="584">
+          <caret line="255" column="116" lean-forward="false" selection-start-line="255" selection-start-column="116" selection-end-line="255" selection-end-column="116" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#logInformation#0;class#EmployeeController#0" expanded="false" />
+            <element signature="method#logRequest#0;class#EmployeeController#0" expanded="false" />
+            <element signature="method#logMapValues#0;class#EmployeeController#0" expanded="false" />
+            <element signature="method#logResponse#0;class#EmployeeController#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="226">
+            <caret line="25" column="8" lean-forward="false" selection-start-line="25" selection-start-column="8" selection-end-line="25" selection-end-column="33" />
+            <folding />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>

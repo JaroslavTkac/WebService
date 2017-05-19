@@ -20,6 +20,10 @@ Naujas funkcionalas:
 kaip paleisti? 
 
         Atsiusti docker-compose.yml ir parašyti komandą: docker-compose up -d
+        
+* Pažiūrėti logus
+        
+        (GET) localhost:80/logger
 
 * Kompanijos paduoda užklausą į banką ir gauna aktulu balansą.
     
