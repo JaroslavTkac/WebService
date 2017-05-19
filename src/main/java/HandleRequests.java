@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Arrays;
 class HandleRequests {
     private static final String USER_AGENT = "Mozilla/5.0";
 
-    static Object GET(String urlToRead) throws Exception {
+    static ArrayList<Object> GET(String urlToRead) throws Exception {
         URL obj = new URL(urlToRead);
         HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
 
@@ -27,9 +28,17 @@ class HandleRequests {
         in.close();
 
         //System.out.println(response.toString());
-        return response;
+        ArrayList<Object> list = new ArrayList<>();
+
+        list.add(response); //0
+        list.add(urlToRead); //1
+        list.add(connection.getHeaderField(2)); //2 PATH
+        list.add(connection.getHeaderField(3)); //3 METHOD
+        list.add(Integer.toString(responseCode)); //4
+
+        return list;
     }
-    static String sendGETRequest(String urlToRead) throws Exception {
+    static ArrayList<String> sendGETRequest(String urlToRead) throws Exception {
         StringBuilder result = new StringBuilder();
 
         URL url = new URL(urlToRead);
@@ -43,7 +52,25 @@ class HandleRequests {
         }
 
         rd.close();
-        return result.toString();
+
+        int responseCode = connection.getResponseCode();
+        /*System.out.println("==================================================================================");
+        System.out.println("==================================================================================");
+        System.out.println("nSending 'POST' request to URL : " + url);
+        System.out.println("Response Code : " + responseCode);
+        System.out.println("Header PATH: " + connection.getHeaderField(2));
+        System.out.println("Header METHOD: " + connection.getHeaderField(3));
+        System.out.println("==================================================================================");
+        System.out.println("==================================================================================");*/
+        ArrayList<String> list = new ArrayList<>();
+
+        list.add(result.toString()); //0
+        list.add(urlToRead); //1
+        list.add(connection.getHeaderField(2)); //2 PATH
+        list.add(connection.getHeaderField(3)); //3 METHOD
+        list.add(Integer.toString(responseCode)); //4
+
+        return list;
     }
 
     static String POSTLoggedData(String urlToRead, String URL, String method, String request, String headerPATH,

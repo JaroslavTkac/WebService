@@ -16,7 +16,7 @@ public class Main {
         CompanyData companyData = new CompanyData();
         EmployeeData employeeData = new EmployeeData();
 
-        port(80);
+        port(1234);
 
         //get all logs from Logger webservice
         get("/logs", (Request req, Response res) ->

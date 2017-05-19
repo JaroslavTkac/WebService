@@ -24,9 +24,9 @@ class CompanyController {
     private static final int HTTP_UNPROCESSABLE_ENTITY = 422;
     private static final int HTTP_SERVICE_UNAVAILABLE = 503;
 
-    private static final String Company_Web_Service_URL = "company:80";
-    private static final String Bank_Web_Service_URL = "bank:1234";
-    private static final String Logger_Web_Service_URL = "logger:1200";
+    private static final String Company_Web_Service_URL = "localhost:1234";
+    private static final String Bank_Web_Service_URL = "localhost:90";
+    private static final String Logger_Web_Service_URL = "localhost:100";
 
 
     static List<Log> getAllLogs(Request request, Response response, CompanyData companyData) {
@@ -49,15 +49,20 @@ class CompanyController {
     static List<Company> getAllCompanies(Request request, Response response, CompanyData companyData) {
         String account;
         Company company;
+        ArrayList<String> accountList = new ArrayList<>();
         String requestBody = request.body().replaceAll("}", "").replaceAll("\"", "")
                 .replaceAll("\\{", "").replaceAll("\n", "");
         try {
             for (int i = 1; i <= companyData.getCompanies().size(); i++) {
-                account = HandleRequests.sendGETRequest("http://" + Bank_Web_Service_URL + "/accounts/" + companyData.get(i).getBankId());
+                accountList = HandleRequests.sendGETRequest("http://" + Bank_Web_Service_URL + "/accounts/" + companyData.get(i).getBankId());
+                account = accountList.get(0);
                 company = companyData.get(i);
                 company.setBalance(getBalance(account));
                 companyData.update(companyData.get(i).getCompanyId(), company);
+                logData(accountList.get(1), "getMyAccount", requestBody,
+                        accountList.get(2), accountList.get(3), "", Integer.parseInt(accountList.get(4)));
             }
+
         } catch (Exception e) {
             try {
                 HandleRequests.testURL("http://" + Bank_Web_Service_URL + "/accounts");
@@ -95,6 +100,7 @@ class CompanyController {
         return companyData.getAll();
     }
 	static Object getCompany(Request request, Response response, CompanyData companyData) {
+        ArrayList<String> accountList = new ArrayList<>();
         String account = "";
         String requestBody = request.body().replaceAll("}", "").replaceAll("\"", "")
                 .replaceAll("\\{", "").replaceAll("\n", "");
@@ -112,9 +118,12 @@ class CompanyController {
                 return "There is no such company";
             }
             try {
-                account = HandleRequests.sendGETRequest("http://" + Bank_Web_Service_URL + "/accounts/" + company.getBankId());
+                accountList = HandleRequests.sendGETRequest("http://" + Bank_Web_Service_URL + "/accounts/" + company.getBankId());
+                account = accountList.get(0);
                 for(int i = 0; i < company.getTransactionID().size(); i++) {
                     company.transactionsListExpanded.add(JsonTransformer.fromJson(HandleRequests.GET("http://" + Bank_Web_Service_URL + "/transactions/" + company.getTransactionID().get(i)) + "", Transaction.class));
+                    logData(accountList.get(1), "getMyTransactions", requestBody,
+                            accountList.get(2), accountList.get(3), "", Integer.parseInt(accountList.get(4)));
                 }
             }
             catch (Exception e){
@@ -162,6 +171,7 @@ class CompanyController {
     static Object getCompanyAccount(Request request, Response response, CompanyData companyData){
         String requestBody = request.body().replaceAll("}", "").replaceAll("\"", "")
                 .replaceAll("\\{", "").replaceAll("\n", "");
+        ArrayList<Object> objectArrayList = new ArrayList<>();
         try {
             int id = Integer.valueOf(request.params("id"));
             Company company = companyData.get(id);
@@ -175,7 +185,11 @@ class CompanyController {
                 logInformation("getCompanyAccount", Level.ERROR, request, response, "There is no such company with id: " + id);
                 return "There is no such company";
             }
-            Object account = JsonTransformer.fromJson(HandleRequests.GET("http://" + Bank_Web_Service_URL + "/accounts/" + company.getBankId())+"", Account.class);
+            //objectArrayList = JsonTransformer.fromJson(HandleRequests.GET("http://" + Bank_Web_Service_URL + "/accounts/" + company.getBankId()), Account.class);
+            objectArrayList = HandleRequests.GET("http://" + Bank_Web_Service_URL + "/accounts/" + company.getBankId());
+            Object account = JsonTransformer.fromJson(objectArrayList.get(0).toString(), Account.class);
+            logData(objectArrayList.get(1).toString(), "getMyAccount", requestBody,
+                    objectArrayList.get(2).toString(), objectArrayList.get(3).toString(), "", Integer.parseInt(objectArrayList.get(4).toString()));
             logData(request.url(), "getCompanyAccount", requestBody,
                     getStringFromResponseByName(response.raw().toString(), "PATH:"),
                     getStringFromResponseByName(response.raw().toString(), "METHOD:"),
@@ -207,6 +221,7 @@ class CompanyController {
         }
     }
     static Object getCompanyAccountTransactions(Request request, Response response, CompanyData companyData){
+        ArrayList<Object> objectArrayList = new ArrayList<>();
         String requestBody = request.body().replaceAll("}", "").replaceAll("\"", "")
                 .replaceAll("\\{", "").replaceAll("\n", "");
         try {
@@ -234,7 +249,11 @@ class CompanyController {
             }
             ArrayList<Object> list = new ArrayList<Object>();
             for(int i = 0; i < company.getTransactionID().size(); i++) {
-                list.add(JsonTransformer.fromJson(HandleRequests.GET("http://" + Bank_Web_Service_URL + "/transactions/" + company.getTransactionID().get(i)) + "", Transaction.class));
+                objectArrayList = HandleRequests.GET("http://" + Bank_Web_Service_URL + "/transactions/" + company.getTransactionID().get(i));
+                Object transaction = JsonTransformer.fromJson(objectArrayList.get(0).toString(), Account.class);
+                list.add(JsonTransformer.fromJson(transaction.toString(), Transaction.class));
+                logData(objectArrayList.get(1).toString(), "getMyAccount", requestBody,
+                        objectArrayList.get(2).toString(), objectArrayList.get(3).toString(), "", Integer.parseInt(objectArrayList.get(4).toString()));
             }
             logData(request.url(), "getCompanyAccountTransactions", requestBody,
                     getStringFromResponseByName(response.raw().toString(), "PATH:"),
